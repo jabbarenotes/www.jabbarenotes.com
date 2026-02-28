@@ -1,73 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>P8 Notes Viewer</title>
-    <link rel="stylesheet" href="pdfjs/web/viewer.css">
-    <style>
-        body, html { margin: 0; height: 100%; overflow: hidden; }
-        #pdf-container { width: 100%; height: 100%; }
-        /* Hide download, print, and other toolbar buttons */
-        .toolbarButton.download,
-        .toolbarButton.print,
-        .toolbarButton.secondaryToolbarToggle {
-            display: none !important;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Two Panel PDF Viewer</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+    }
+    #left-panel {
+        width: 25%;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+        background: #f9f9f9;
+        padding: 5px;
+    }
+    #right-panel {
+        width: 75%;
+        overflow-y: auto;
+        text-align: center;
+        position: relative;
+    }
+    #left-panel button {
+        display: block;
+        width: 90%;
+        margin: 5px auto;
+        padding: 5px;
+        cursor: pointer;
+    }
+    canvas {
+        margin: 10px 0;
+        border: 1px solid #000;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #controls {
+        margin-bottom: 10px;
+    }
+    #controls button {
+        margin: 5px;
+        padding: 5px 10px;
+    }
+</style>
 </head>
 <body>
-    <div id="pdf-container"></div>
 
-    <script src="pdfjs/build/pdf.js"></script>
-    <script>
-        // Disable right click
-        document.addEventListener('contextmenu', e => e.preventDefault());
+<div id="left-panel">
+    <h3 style="text-align:center;">Pages</h3>
+</div>
 
-        const url = 'https://raw.githubusercontent.com/jabbarenotes/www.jabbarenotes.com/main/P8.pdf';
+<div id="right-panel">
+    <div id="controls">
+        <button onclick="zoomOut()">- Zoom Out</button>
+        <button onclick="zoomIn()">+ Zoom In</button>
+    </div>
+</div>
 
-        const pdfjsLib = window['pdfjs-dist/build/pdf'];
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs/build/pdf.worker.js';
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault()); // disable right click
 
-        let pdfDoc = null,
-            pageNum = 1,
-            scale = 1.0,
-            canvas = document.createElement('canvas'),
-            ctx = canvas.getContext('2d');
+const url = './p8.pdf'; // PDF file in same folder
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        document.getElementById('pdf-container').appendChild(canvas);
+let pdfDoc = null;
+let scale = 1.2;
+const leftPanel = document.getElementById('left-panel');
+const rightPanel = document.getElementById('right-panel');
 
-        function renderPage(num) {
-            pdfDoc.getPage(num).then(page => {
-                const viewport = page.getViewport({ scale: scale });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                const renderContext = {
-                    canvasContext: ctx,
-                    viewport: viewport
-                };
-                page.render(renderContext);
-            });
+function renderPage(pageNumber) {
+    pdfDoc.getPage(pageNumber).then(page => {
+        const viewport = page.getViewport({ scale: scale });
+        let existingCanvas = document.getElementById('pdf-canvas');
+        if (!existingCanvas) {
+            const canvas = document.createElement('canvas');
+            canvas.id = 'pdf-canvas';
+            rightPanel.appendChild(canvas);
+            existingCanvas = canvas;
         }
+        const context = existingCanvas.getContext('2d');
+        existingCanvas.height = viewport.height;
+        existingCanvas.width = viewport.width;
+        page.render({ canvasContext: context, viewport: viewport });
+    });
+}
 
-        pdfjsLib.getDocument(url).promise.then(doc => {
-            pdfDoc = doc;
-            renderPage(pageNum);
-        });
+function renderTOC() {
+    for (let i = 1; i <= pdfDoc.numPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = 'Page ' + i;
+        btn.onclick = () => renderPage(i);
+        leftPanel.appendChild(btn);
+    }
+}
 
-        // Optional: Zoom in/out using mouse wheel
-        window.addEventListener('wheel', function(e) {
-            if (e.deltaY < 0) scale += 0.1;
-            else scale = Math.max(scale - 0.1, 0.5);
-            renderPage(pageNum);
-        });
+function zoomIn() { scale += 0.2; renderPage(currentPage); }
+function zoomOut() { scale = Math.max(0.5, scale - 0.2); renderPage(currentPage); }
 
-        // Optional: Navigate pages using arrow keys
-        window.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' && pageNum < pdfDoc.numPages) pageNum++;
-            if (e.key === 'ArrowLeft' && pageNum > 1) pageNum--;
-            renderPage(pageNum);
-        });
-    </script>
+let currentPage = 1;
+
+pdfjsLib.getDocument(url).promise.then(pdf => {
+    pdfDoc = pdf;
+    renderTOC();
+    renderPage(currentPage);
+}).catch(err => {
+    rightPanel.innerHTML = `<p style="color:red;">Failed to load PDF: ${err}</p>`;
+});
+</script>
+
 </body>
 </html>
