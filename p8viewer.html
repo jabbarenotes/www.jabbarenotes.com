@@ -1,116 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Two Panel PDF Viewer</title>
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        display: flex;
-        height: 100vh;
-    }
-    #left-panel {
-        width: 25%;
-        border-right: 1px solid #ccc;
-        overflow-y: auto;
-        background: #f9f9f9;
-        padding: 5px;
-    }
-    #right-panel {
-        width: 75%;
-        overflow-y: auto;
-        text-align: center;
-        position: relative;
-    }
-    #left-panel button {
-        display: block;
-        width: 90%;
-        margin: 5px auto;
-        padding: 5px;
-        cursor: pointer;
-    }
-    canvas {
-        margin: 10px 0;
-        border: 1px solid #000;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    #controls {
-        margin-bottom: 10px;
-    }
-    #controls button {
-        margin: 5px;
-        padding: 5px 10px;
-    }
-</style>
+    <title>Secure PDF Preview</title>
+    <style>
+        body { text-align: center; }
+        iframe {
+            width: 80%;
+            height: 90vh;
+            border: 1px solid #000;
+        }
+    </style>
 </head>
 <body>
 
-<div id="left-panel">
-    <h3 style="text-align:center;">Pages</h3>
-</div>
+<h2>PDF Preview</h2>
 
-<div id="right-panel">
-    <div id="controls">
-        <button onclick="zoomOut()">- Zoom Out</button>
-        <button onclick="zoomIn()">+ Zoom In</button>
-    </div>
-</div>
+<iframe 
+    id="pdfFrame" 
+    src="./P8.pdf" 
+    type="application/pdf">
+</iframe>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
-document.addEventListener("contextmenu", e => e.preventDefault()); // disable right click
-
-const url = './P8.pdf'; // PDF file in same folder
-const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-
-let pdfDoc = null;
-let scale = 1.2;
-const leftPanel = document.getElementById('left-panel');
-const rightPanel = document.getElementById('right-panel');
-
-function renderPage(pageNumber) {
-    pdfDoc.getPage(pageNumber).then(page => {
-        const viewport = page.getViewport({ scale: scale });
-        let existingCanvas = document.getElementById('pdf-canvas');
-        if (!existingCanvas) {
-            const canvas = document.createElement('canvas');
-            canvas.id = 'pdf-canvas';
-            rightPanel.appendChild(canvas);
-            existingCanvas = canvas;
-        }
-        const context = existingCanvas.getContext('2d');
-        existingCanvas.height = viewport.height;
-        existingCanvas.width = viewport.width;
-        page.render({ canvasContext: context, viewport: viewport });
-    });
-}
-
-function renderTOC() {
-    for (let i = 1; i <= pdfDoc.numPages; i++) {
-        const btn = document.createElement('button');
-        btn.textContent = 'Page ' + i;
-        btn.onclick = () => renderPage(i);
-        leftPanel.appendChild(btn);
-    }
-}
-
-function zoomIn() { scale += 0.2; renderPage(currentPage); }
-function zoomOut() { scale = Math.max(0.5, scale - 0.2); renderPage(currentPage); }
-
-let currentPage = 1;
-
-pdfjsLib.getDocument(url).promise.then(pdf => {
-    pdfDoc = pdf;
-    renderTOC();
-    renderPage(currentPage);
-}).catch(err => {
-    rightPanel.innerHTML = `<p style="color:red;">Failed to load PDF: ${err}</p>`;
-});
+    // Disable right-click on iframe
+    const iframe = document.getElementById('pdfFrame');
+    iframe.addEventListener('contextmenu', e => e.preventDefault());
 </script>
 
 </body>
