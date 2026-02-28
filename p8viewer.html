@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>P8 Notes Viewer</title>
+    <link rel="stylesheet" href="pdfjs/web/viewer.css">
+    <style>
+        body, html { margin: 0; height: 100%; overflow: hidden; }
+        #pdf-container { width: 100%; height: 100%; }
+        /* Hide download, print, and other toolbar buttons */
+        .toolbarButton.download,
+        .toolbarButton.print,
+        .toolbarButton.secondaryToolbarToggle {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="pdf-container"></div>
+
+    <script src="pdfjs/build/pdf.js"></script>
+    <script>
+        // Disable right click
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        const url = 'https://raw.githubusercontent.com/jabbarenotes/www.jabbarenotes.com/main/P8.pdf';
+
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs/build/pdf.worker.js';
+
+        let pdfDoc = null,
+            pageNum = 1,
+            scale = 1.0,
+            canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d');
+
+        document.getElementById('pdf-container').appendChild(canvas);
+
+        function renderPage(num) {
+            pdfDoc.getPage(num).then(page => {
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        }
+
+        pdfjsLib.getDocument(url).promise.then(doc => {
+            pdfDoc = doc;
+            renderPage(pageNum);
+        });
+
+        // Optional: Zoom in/out using mouse wheel
+        window.addEventListener('wheel', function(e) {
+            if (e.deltaY < 0) scale += 0.1;
+            else scale = Math.max(scale - 0.1, 0.5);
+            renderPage(pageNum);
+        });
+
+        // Optional: Navigate pages using arrow keys
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' && pageNum < pdfDoc.numPages) pageNum++;
+            if (e.key === 'ArrowLeft' && pageNum > 1) pageNum--;
+            renderPage(pageNum);
+        });
+    </script>
+</body>
+</html>
