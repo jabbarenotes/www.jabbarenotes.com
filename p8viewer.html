@@ -1,30 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Secure PDF Preview</title>
-    <style>
-        body { text-align: center; }
-        iframe {
-            width: 80%;
-            height: 90vh;
-            border: 1px solid #000;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Two Panel PDF Viewer with Thumbnails</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+    #left-panel {
+        width: 150px; /* smaller width */
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+        background: #f9f9f9;
+        padding: 5px;
+    }
+    #right-panel {
+        flex: 1;
+        overflow: auto;
+        text-align: center;
+        position: relative;
+        background: #e0e0e0;
+    }
+    canvas {
+        margin: 10px 0;
+        border: 1px solid #000;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #controls {
+        margin: 10px 0;
+    }
+    #controls button {
+        margin: 5px;
+        padding: 5px 10px;
+    }
+    .thumbnail {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        transition: border 0.2s;
+    }
+    .thumbnail.active {
+        border: 2px solid #007bff;
+    }
+</style>
 </head>
 <body>
 
-<h2>PDF Preview</h2>
+<div id="left-panel">
+    <h3 style="text-align:center;">Pages</h3>
+</div>
 
-<iframe 
-    id="pdfFrame" 
-    src="./P8.pdf" 
-    type="application/pdf">
-</iframe>
+<div id="right-panel">
+    <div id="controls">
+        <button onclick="zoomOut()">- Zoom Out</button>
+        <button onclick="zoomIn()">+ Zoom In</button>
+    </div>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
-    // Disable right-click on iframe
-    const iframe = document.getElementById('pdfFrame');
-    iframe.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener("contextmenu", e => e.preventDefault()); // disable right click
+
+const url = './P8.pdf'; // PDF file in same folder
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+let pdfDoc = null;
+let scale = 1.2;
+let currentPage = 1;
+
+const leftPanel = document.getElementById('left-panel');
+const rightPanel = document.getElementById('right-panel');
+
+// Render a page in main viewer
+function renderPage(pageNumber) {
+    currentPage = pageNumber;
+    pdfDoc.getPage(pageNumber).then(page => {
+        const viewport = page.getViewport({ scale: scale });
+        let existingCanvas = document.getElementById('pdf-canvas');
+        if (!existingCanvas) {
+            const canvas = document.createElement('canvas');
+            canvas.id = 'pdf-canvas';
+            rightPanel.appendChild(canvas);
+            existingCanvas = canvas;
+        }
+        const context = existingCanvas.getContext('2d');
+        existingCanvas.height = viewport.height;
+        existingCanvas.width = viewport.width;
+        page.render({ canvasContext: context, viewport: viewport });
+        highlightThumbnail(pageNumber);
+    });
+}
+
+// Highlight current thumbnail
+function highlightThumbnail(pageNumber) {
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach((thumb, index) => {
+        if (index + 1 === pageNumber) thumb.classList.add('active');
+        else thumb.classList.remove('active');
+    });
+}
+
+// Render thumbnails in left panel
+function renderThumbnails() {
+    for (let i = 1; i <= pdfDoc.numPages; i++) {
+        pdfDoc.getPage(i).then(page => {
+            const viewport = page.getViewport({ scale: 0.2 }); // small thumbnail
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            canvas.className = 'thumbnail';
+            const context = canvas.getContext('2d');
+            page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                canvas.addEventListener('click', () => renderPage(i));
+                leftPanel.appendChild(canvas);
+            });
+        });
+    }
+}
+
+// Zoom functions
+function zoomIn() { scale += 0.2; renderPage(currentPage); }
+function zoomOut() { scale = Math.max(0.5, scale - 0.2); renderPage(currentPage); }
+
+// Load PDF
+pdfjsLib.getDocument(url).promise.then(pdf => {
+    pdfDoc = pdf;
+    renderThumbnails();
+    renderPage(currentPage);
+}).catch(err => {
+    rightPanel.innerHTML = `<p style="color:red;">Failed to load PDF: ${err}</p>`;
+});
 </script>
 
 </body>
