@@ -205,36 +205,42 @@
 
 <!-- Start of Footer   Section -->
 
-    <script>
-let index = 0;
-const slides = document.querySelector(".img-slides");
-const slideItems = document.querySelectorAll(".img-slide");
-const dots = document.querySelectorAll(".dot");
+   <script>
+        // Mobile Toggle logic
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-list');
+        mobileMenu.onclick = () => {
+            navList.classList.toggle('active');
+        };
 
-function showSlide(i){
+        // Text Carousel (Fixed template literals)
+        const textSlides = document.getElementById('textSlides');
+        let textIdx = 0;
+        setInterval(() => {
+            textIdx = (textIdx + 1) % 5;
+            textSlides.style.transform = `translateX(-${textIdx * 20}%)`;
+        }, 3000);
 
-    if(i >= slideItems.length){ index = 0; }
-    if(i < 0){ index = slideItems.length-1; }
+        // Hero Carousel (Fixed template literals)
+        const imgSlides = document.getElementById('imgSlides');
+        const slides = document.querySelectorAll('.img-slide');
+        const dots = document.querySelectorAll('.dot');
+        let imgIdx = 0;
 
-    slides.style.transform = "translateX(" + (-index * 33.333) + "%)";
+        function updateCarousel() {
+            imgSlides.style.transform = `translateX(-${imgIdx * (100/3)}%)`;
+            slides.forEach((s, i) => {
+                s.classList.toggle('active-animation', i === imgIdx);
+                dots[i].classList.toggle('active', i === imgIdx);
+            });
+        }
 
-    slideItems.forEach(s => s.classList.remove("active-animation"));
-    slideItems[index].classList.add("active-animation");
+        function jumpToSlide(i) { imgIdx = i; updateCarousel(); }
 
-    dots.forEach(d => d.classList.remove("active"));
-    dots[index].classList.add("active");
-}
-
-function autoSlide(){
-    index++;
-    showSlide(index);
-}
-
-setInterval(autoSlide, 4000); // change slide every 4 seconds
-
-showSlide(index);
-</script>
-
+        setInterval(() => {
+            imgIdx = (imgIdx + 1) % 3;
+            updateCarousel();
+        }, 6000);
+    </script>
 </body>
 </html>
-
