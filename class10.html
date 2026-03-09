@@ -8985,8 +8985,42 @@ By identifying customer preferences, behavior patterns, and pain points, compani
 
 <!-- End of Footer   Section -->
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const buttons = document.querySelectorAll(".accordion-button");
+  const contents = document.querySelectorAll(".accordion-content");
+
+  buttons.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      contents.forEach((content, i) => {
+        if (i !== index) content.style.display = "none";
+      });
+
+      const currentContent = contents[index];
+      currentContent.style.display = (currentContent.style.display === "block") ? "none" : "block";
+    });
+  });
+
+  // Handle topic toggle
+  const topics = document.querySelectorAll(".topic");
+  topics.forEach(topic => {
+    topic.addEventListener("click", function (e) {
+      // Close other topic contents in the same unit
+      const siblingTopics = this.parentElement.querySelectorAll(".topic-content");
+      siblingTopics.forEach(tc => {
+        if (tc !== this.querySelector(".topic-content")) tc.style.display = "none";
+      });
+
+      // Toggle this topic's content
+      const content = this.querySelector(".topic-content");
+      content.style.display = (content.style.display === "block") ? "none" : "block";
+    });
+  });
+});
+</script>
 </body>
 </html>
+
 
 
 
