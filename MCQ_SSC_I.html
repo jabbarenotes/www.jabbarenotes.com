@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>jabbarenotes SSC-I SSC-II</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e40af;
+            --secondary:#4e81d1;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --card: #ffffff;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --radius: 1.5rem;
+            
+            /* 3D Glass Gradients */
+            --g1: linear-gradient(135deg, #60a5fa, #1e40af);
+            --g2: linear-gradient(135deg, #c084fc, #7c3aed);
+            --g3: linear-gradient(135deg, #f472b6, #db2777);
+            --g4: linear-gradient(135deg, #34d399, #059669);
+            --g5: linear-gradient(135deg, #fbbf24, #d97706);
+            --g6: linear-gradient(135deg, #22d3ee, #0891b2);
+            --g7: linear-gradient(135deg, #f87171, #dc2626);
+            --g-boss: linear-gradient(135deg, #818cf8, #4f46e5);
+        }
+
+        .dark-mode {
+            --bg: #0f172a;
+            --text: #f1f5f9;
+            --card: #1e293b;
+            --nav-bg: rgba(15, 23, 42, 0.95);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        /* --- STYLISH NAVIGATION --- */
+        .branding-bar {
+            background: var(--card);
+            padding: 0.75rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo { display: flex; align-items: center; text-decoration: none; gap: 10px; }
+        .logo img { height: 45px; }
+        .logo span { 
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: var(--g1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .menu { list-style: none; display: flex; justify-content: center; margin: 0; padding: 0; }
+        .menu > li { position: relative; }
+        .menu > li > a {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card);
+            min-width: 220px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border-radius: 0 0 12px 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: 0.3s;
+            list-style: none;
+            padding: 0.5rem 0;
+        }
+
+        .menu > li:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown li a { padding: 0.8rem 1.5rem; display: block; color: var(--text); text-decoration: none; }
+        .dropdown li a:hover { background: var(--primary); color: white; }
+
+        .menu-toggle { display: none; padding: 1rem; text-align: center; cursor: pointer; background: var(--primary); color: white; font-weight: bold; }
+
+        /* --- 3D ICON & BUTTON STYLING --- */
+        .unit-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 1.5rem; 
+            margin-top: 2rem; 
+        }
+
+        .unit-btn { 
+            background: var(--card); 
+            padding: 2rem 1rem;
+            border-radius: var(--radius); 
+            cursor: pointer; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .icon-box-3d {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            background: var(--icon-grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            position: relative;
+            box-shadow: 
+                0 10px 15px -5px rgba(0,0,0,0.2),
+                inset 0 -4px 6px rgba(0,0,0,0.15),
+                inset 0 4px 6px rgba(255,255,255,0.3);
+            transition: 0.3s;
+        }
+
+        .icon-box-3d i { font-size: 2rem; color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+
+        .unit-btn:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .unit-btn:hover .icon-box-3d { animation: float 2s ease-in-out infinite; }
+        .unit-btn.active { border-color: var(--primary); background: #eff6ff; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        /* --- INTERFACE STYLES --- */
+        .heading { 
+            padding: 4rem 1rem; 
+            background: var(--g1); 
+            color: white; 
+            text-align: center; 
+            border-radius: 0 0 40px 40px;
+        }
+
+        .card { 
+            background: var(--card); 
+            padding: 2.5rem; 
+            border-radius: var(--radius); 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            margin-top: -2rem;
+        }
+
+        .btn-main { 
+            background: var(--g1); color: white; padding: 1.2rem; border: none; 
+            border-radius: 1rem; width: 100%; font-size: 1.2rem; font-weight: 800; cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+        }
+
+        .option { 
+            display: block; width: 100%; padding: 1.25rem; margin: 0.75rem 0; 
+            border: 2px solid #e2e8f0; border-radius: 1rem; background: var(--card); 
+            text-align: left; cursor: pointer; font-size: 1.1rem; font-weight: 500; transition: 0.2s;
+        }
+
+        .option:hover:not(:disabled) { border-color: var(--primary); background: #f1f5f9; }
+        .option.correct { background: var(--success) !important; color: white; }
+        .option.wrong { background: var(--danger) !important; color: white; }
+
+        .hidden { display: none; }
+        .containerMCQ { width: 90%; max-width: 1000px; margin: 0 auto 4rem auto; }
+
+        @media (max-width: 850px) {
+            .menu-toggle { display: block; }
+            .menu { display: none; flex-direction: column; background: var(--card); }
+            .menu.active { display: flex; }
+            .dropdown { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; display: none; }
+            .menu > li:hover .dropdown { display: block; }
+        }
+
+        
+/* Bottom copyright */
+.footer-bottom{
+
+    margin-top: 35px;
+    border: solid;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    
+}
+    </style>
+</head>
+<body>
+
+    <header class="branding-bar">
+        <a href="#" class="logo">
+            <img src="./images/logo.png" alt="Logo">
+            <span>JabbarEnotes</span>
+        </a>
+    </header>
+
+    
+    <nav>
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i> MENU</div>
+        <ul class="menu" id="nav-list">
+            <li><a href="./index.html">Home</a></li>
+            <li>
+                <a href="#">8th Class <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a href="./P8.pdf">Practical Notes</a></li>
+                    <li><a href="#">Project Notes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">9th Class <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a href="./class9.html">Computer Science Notes</a></li>
+                    <li><a href="./MCQ_SSC_I.html">Computer Science MCQs</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">10th Class <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a href="./class10.html">Computer Science Notes</a></li>
+                    <li><a href="./MCQ_SSC_II.html">Computer Science MCQs</a></li>
+                </ul>
+            </li>
+            <li><a href="#">About Us</a></li>
+        </ul>
+    </nav>
+
+    
+    <div class="heading">
+        <h1>🚀 SSC-I Computer Science MCQs Portal</h1>
+        <p>Final Exam Prep - Curriculum 2022-23</p>
+        <p>Interactive 3D Learning Experience</p>
+    </div>
+
+    <div class="containerMCQ">
+        <div id="home" class="card">
+            <h2 style="text-align: center;">Choose Your Mission ⚔️</h2>
+            <div class="unit-grid" id="unit-list"></div>
+            <button class="btn-main" style="margin-top: 2.5rem;" onclick="startQuiz()">Start Battle 🏃‍♂️</button>
+        </div>
+
+        <div id="quiz" class="card hidden">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                <span id="q-count" style="font-weight: bold;">Question 1/0</span>
+                <span id="timer-text" style="color: var(--danger); font-weight: 800;">60s</span>
+            </div>
+            <h3 id="q-text" style="margin-bottom: 2rem;">Loading...</h3>
+            <div id="options"></div>
+            <div id="explanation-box" class="hidden" style="margin-top:1rem; padding:1rem; background:#fff9db; border-left:4px solid #f59e0b; border-radius:8px;">
+                <strong id="funny-remark"></strong>
+            </div>
+            <button id="next-btn" class="btn-main hidden" style="margin-top: 1.5rem;" onclick="handleNext()">Next Round ➡️</button>
+        </div>
+
+        <div id="results" class="card hidden" style="text-align: center;">
+            <h2>Mission Results 🏁</h2>
+            <div style="font-size: 4rem; font-weight: 900; color: var(--primary);" id="res-score">0/0</div>
+            <p id="res-feedback" style="font-size: 1.2rem; margin: 1.5rem 0;"></p>
+            <div id="unit-stats" style="text-align: left; margin: 2rem 0;"></div>
+            <button class="btn-main" onclick="location.reload()">Try Again? 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = {
+            "unit1": { title: "Computer System", icon: "fa-desktop", color: "var(--g1)", questions: [
+                { q: "What computing machine was capable of taking input from punch cards and storing data in memory?", o: ["Abacus", "Analytical Engine", "Tabulating Machine", "Differential Analyzer"], a: 1 },
+                { q: "What technology replaced vacuum tubes in second-generation computers?", o: ["Transistors", "Integrated Circuits (ICS)", "Microprocessors", "Magnetic tapes"], a: 0 },
+                { q: "Which computer generation introduced the use of Integrated Circuits (ICS)?", o: ["First Generation", "Second Generation", "Third Generation", "Fourth Generation"], a: 2 },
+                { q: "Which of the following is an example of a natural system?", o: ["Telephone network", "Human body", "Database", "Automobile"], a: 1 },
+                { q: "Which component of the microprocessor controls the working of input/output devices and storage devices?", o: ["Arithmetic Logic unit (ALU)", "Control Unit (CU)", "Memory Address Register", "Data Register (DR)"], a: 1 },
+                { q: "Which type of memory retains data even when the computer is turned off?", o: ["RAM", "ROM", "Cache", "Register"], a: 1 },
+                { q: "What is the main purpose of Cache memory?", o: ["Store program instructions", "Provide high-speed storage", "Control input/output devices", "Perform arithmetic operations"], a: 1 },
+                { q: "What is the smallest unit of memory in a digital computer?", o: ["Kilobyte", "Bit", "Byte", "Megabyte"], a: 1 },
+                { q: "Which memory type uses laser beams to read and write data?", o: ["RAM", "Optical memory", "Cache memory", "ROM"], a: 1 },
+                { q: "In Von Neumann architecture, where are instruction data and program data stored?", o: ["In separate memory units", "In the same memory unit", "In the processor's registers", "In the cache memory"], a: 1 },
+                { q: "What is the primary function of the buses in a computer’s memory system?", o: ["Control memory operations", "Display graphics", "Transmit data between components", "Perform arithmetic operations"], a: 2 },
+                { q: "What is the primary function of the Presentation Layer in the OSI model?", o: ["Establishing connections between computers", "Converting data into a standard format", "Deciding the physical path of data", "Sending data in both directions simultaneously"], a: 1 },
+                { q: "In which network topology is data transmission unidirectional, like radio or television broadcasts?", o: ["Star Topology", "Bus Topology", "Mesh Topology", "Ring Topology"], a: 3 },
+                { q: "Which data communication standard is used for transferring web pages and related data on the World Wide Web?", o: ["TCP/IP", "HTTP", "FTP", "SMTP"], a: 1 },
+                { q: "Which network architecture requires each computer to act as either a server or a client but not both simultaneously?", o: ["Client/Server Network", "Peer-to-Peer Network", "Metropolitan Area Network (MAN)", "Wide Area Network (WAN)"], a: 0 }
+            ]},
+            "unit2": { title: "Comp. Thinking", icon: "fa-brain", color: "var(--g2)", questions: [
+                { q: "For a problem we face in real world situations, in what sequence we follow the steps?", o: ["I, II, III", "I, III, II", "II, I, III", "II, III, I"], a: 2 },
+                { q: "Following are types of computing problems: I. Counting, II. Search, III. Decision?", o: ["I and II", "I and III", "II and III", "I, II and III"], a: 3 },
+                { q: "Computational thinking is?", o: ["Programming", "Thinking like a computer", "Coding", "Logically solving problems"], a: 3 },
+                { q: "To solve Search problems, we need to?", o: ["Provide the moves", "Provide start state", "Provide the end state", "a, b and c"], a: 3 },
+                { q: "The eight queens’ puzzle is the problem of?", o: ["Sorting", "Searching", "Counting", "Both A and B"], a: 1 },
+                { q: "Finding the location of the element with a given value is?", o: ["Search", "Traversal", "Sort", "None of above"], a: 0 },
+                { q: "In IPO Charts, we have?", o: ["Input, Plan, Output", "Input, Program, Output", "Input, Process, Output", "Input, Proceed, Output"], a: 2 }
+            ]},
+            "unit3": { title: "Programming", icon: "fa-code", color: "var(--g3)", questions: [
+                { q: "Everything in HTML is identified on the basis of ______?", o: ["Brackets", "Title", "Tags", "Image"], a: 2 },
+                { q: "The output of HTML code is visible in _____?", o: ["Notepad", "File", "Browser", "Spreadsheet"], a: 2 },
+                { q: "Name of a web page can be given using ____ tag?", o: ["Body", "Title", "Head", "Footer"], a: 1 },
+                { q: "Main parts of a document are arranged in ____tag?", o: ["Head", "Title", "Body", "Line Break"], a: 2 },
+                { q: "The heading tag-pair for 5th level heading is?", o: ["<h5..h5>", "<h5../h5>", "h5>..</h5", "<h5>..</h5>"], a: 3 },
+                { q: "Span is used to provide_____to a Line?", o: ["Font", "Border", "Style", "Color"], a: 2 },
+                { q: "First row of table in HTML is called?", o: ["Title Row", "Top Row", "Header Row", "Upper Row"], a: 2 },
+                { q: "The 'p' tag-pair is used for?", o: ["Print", "Page align", "Page break", "Paragraph"], a: 3 },
+                { q: "A variable cannot start with a ________", o: ["Alphabet", "Number", "Character", "String"], a: 1 },
+                { q: "The first value assigned to a variable after declaration is called ____.", o: ["Beginning Values", "Starting Value", "Initialization", "Substitution"], a: 2 }
+            ]},
+            "unit4": { title: "Data Analysis", icon: "fa-chart-bar", color: "var(--g4)", questions: [
+                { q: "__ is a structured or processed collection of data usually associated with a unique body of work?", o: ["Database", "Dataset", "Data and Information", "Information"], a: 0 },
+                { q: "____ refers to the process of carefully examining data to identify patterns, draw conclusions, or make the data meaningful?", o: ["Data analytics", "Data Predictions", "Dataset", "Database"], a: 0 },
+                { q: "____ is the graphical representation of data through use of common charts, plots, info graphics, and animations?", o: ["Data cleaning", "Missing values", "Data visualization", "Data hiding"], a: 2 },
+                { q: "____ is subset of Machine learning, with emphasis on the simulation of human brain behavior using artificial neural networks?", o: ["Data visualization", "Computer vision", "Deep learning", "Big Data"], a: 2 },
+                { q: "____ is the use of data to predict future trends and events based on historical data?", o: ["Statistical analysis", "Predictive analysis", "Graphical analysis", "Deep learning"], a: 1 },
+                { q: "__ is the fast rate at which data is received and acted on?", o: ["Volume", "Velocity", "Variety", "Vision"], a: 1 },
+                { q: "______ includes data which can only take certain values and cannot be further subdivided?", o: ["Discrete data", "Continuous data", "Ordinal data", "Referral data"], a: 0 },
+                { q: "______ is limitation of big data?", o: ["Statistical data", "Unlimited growth of data", "Data visualization", "Predictive maintenance"], a: 1 },
+                { q: "Customer satisfaction levels such as satisfied, dissatisfied, and neutral are examples of ______ data type?", o: ["Ordinal data", "Continuous data", "Numeric data", "Discrete data"], a: 0 },
+                { q: "______ is a method of collecting information from individuals?", o: ["Survey", "Data hiding", "Data visualization", "Data finding"], a: 0 }
+            ]},
+            "unit5": { title: "Applications CS", icon: "fa-robot", color: "var(--g5)", questions: [
+                { q: "The process of taking a known data set to train an algorithm to create a model for prediction is:", o: ["NLP", "Expert system", "Supervised ML", "Unsupervised ML"], a: 2 },
+                { q: "The Al technology that enables computers to obtain meaningful information from images or videos is:", o: ["Image Recognition", "Speech Recognition", "Scanner", "Computer Vision"], a: 3 },
+                { q: "Instant answers to website visitors via text or voice interaction are provided by:", o: ["Robot", "Chatbot", "Cloud Computing", "Expert System"], a: 1 },
+                { q: "Cloud computing model in which resources are owned by and used inside a single organization:", o: ["Private Cloud", "Public Cloud", "Hybrid Cloud", "Remote Cloud"], a: 0 },
+                { q: "The Al tool used for correcting spelling and grammar mistakes is:", o: ["ChatGPT", "Lovo ai", "Grammarly", "Virtual Assistant"], a: 2 },
+                { q: "Virtual assistant that belongs to Apple Inc. is:", o: ["Siri", "Alexa", "Google Assistant", "Cortana"], a: 0 },
+                { q: "The Al tool that converts text to speech is:", o: ["ChatGPT", "Grammarly", "Alexa", "Lovo ai"], a: 3 },
+                { q: "The technology used in self-driving cars is called:", o: ["NLP", "Chatbot", "Computer Vision", "Virtual Assistant"], a: 2 },
+                { q: "Technology concerned with training the computer to understand spoken and written words:", o: ["Virtual Assistant", "Language analysis", "Natural Language Processing", "Virtual training"], a: 2 },
+                { q: "Technology concerned with performing tasks with little or no human intervention using machines:", o: ["Computer vision", "Computer intelligence", "Robotics", "Virtual technology"], a: 2 }
+            ]},
+            "unit6": { title: "Impacts of CS", icon: "fa-user-shield", color: "var(--g6)", questions: [
+                { q: "What does responsible use of hardware entail?", o: ["Using outdated software", "Treating equipment with care", "Ignoring updates", "Sharing passwords"], a: 1 },
+                { q: "Which of the following is an example of appropriate use of software?", o: ["Cracked software", "Regularly updating software", "Sharing licenses", "Disabling antivirus"], a: 1 },
+                { q: "Safe use of digital platforms includes:", o: ["Sharing personal info", "Strong, unique passwords", "Unknown sources", "Accepting strangers"], a: 1 },
+                { q: "Which of the following is an example of inappropriate software use?", o: ["Licensed software", "Respecting copyrights", "Modifying code without permission", "Updating regularly"], a: 2 },
+                { q: "Which of the following is a potentially harmful effect of social networking?", o: ["Social awareness", "Cyber bullying", "Offline engagement", "Critical thinking"], a: 1 },
+                { q: "How can fake news be harmful in the context of computing?", o: ["Fact-checking", "Manipulate public opinion", "Foster trust", "No impact"], a: 1 },
+                { q: "In what way can social networking platforms positively impact businesses?", o: ["Decreasing reach", "Limiting feedback", "Marketing/Engagement", "Increasing costs"], a: 2 },
+                { q: "What is one potential beneficial effect of social networking platforms?", o: ["Personal privacy", "Offline skills", "Connectivity/Networking", "Reduced diverse views"], a: 2 },
+                { q: "What is an ethical concern related to computing?", o: ["Information access", "Security measures", "Privacy breaches", "Telemedicine"], a: 2 },
+                { q: "What is a cultural impact of computing?", o: ["Tradition preservation", "Homogenization of culture", "No preservation need", "Reduced innovation"], a: 1 },
+                { q: "How does computing contribute to economic practices?", o: ["Increase manual labor", "No impact", "Automates tasks/New jobs", "Neglecting small business"], a: 2 },
+                { q: "Which of the following is a personal benefit of computing in healthcare?", o: ["Reduced access", "Medical errors", "Telemedicine access", "Lower costs"], a: 2 }
+            ]},
+            "unit7": { title: "Entrepreneur", icon: "fa-lightbulb", color: "var(--g7)", questions: [
+                { q: "Which are the functions of an entrepreneur?", o: ["Risk bearing", "Innovation", "Organizing and managing", "a, b, c"], a: 3 },
+                { q: "Entrepreneur enters into business to improve products via invention. This is:", o: ["Technical entrepreneur", "Professional entrepreneur", "Novice Entrepreneur", "a, b, c"], a: 0 },
+                { q: "Entrepreneur who introduces new ideas, methods, and discovers new markets is:", o: ["Technical", "Innovative Entrepreneur", "Novice", "a, b, c"], a: 1 },
+                { q: "Entrepreneurship can _______ the Gross National Product:", o: ["Increase", "Decrease", "Neither", "None"], a: 0 },
+                { q: "Entrepreneurship can _______ the Unemployment:", o: ["Increase", "Neither", "Decrease", "a, b, c"], a: 2 },
+                { q: "A stable and dynamic political environment plays:", o: ["Positive role", "Negative role", "No role", "None"], a: 0 },
+                { q: "A business plan is a written summary of:", o: ["Proposed venture", "Operational/Financial details", "Marketing strategy", "a, b, c"], a: 3 }
+            ]}
+        };
+
+        let activeQuestions = [];
+        let currentUnitMode = "";
+        let qIdx = 0;
+        let score = 0;
+        let timer;
+        let unitStats = {};
+
+        // Injects Units with 3D Icons
+        const list = document.getElementById('unit-list');
+        Object.keys(quizData).forEach(key => {
+            const unit = quizData[key];
+            const d = document.createElement('div');
+            d.className = 'unit-btn';
+            d.style.setProperty('--icon-grad', unit.color);
+            d.innerHTML = `
+                <div class="icon-box-3d"><i class="fas ${unit.icon}"></i></div>
+                <strong>${unit.title}</strong>
+                <small>${unit.questions.length} Questions</small>`;
+            d.onclick = () => {
+                document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+                d.classList.add('active');
+                currentUnitMode = key;
+            };
+            list.appendChild(d);
+        });
+
+        // Exam Mode
+        const examBtn = document.createElement('div');
+        examBtn.className = 'unit-btn';
+        examBtn.style.setProperty('--icon-grad', 'var(--g-boss)');
+        examBtn.innerHTML = `<div class="icon-box-3d"><i class="fas fa-medal"></i></div><strong>Final Exam</strong><small>Random Mix</small>`;
+        examBtn.onclick = () => {
+            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+            examBtn.classList.add('active');
+            currentUnitMode = "FINAL_EXAM";
+        };
+        list.appendChild(examBtn);
+
+        function startQuiz() {
+            if(!currentUnitMode) return alert("Select a Unit first!");
+            unitStats = {}; 
+            Object.keys(quizData).forEach(k => unitStats[k] = { correct: 0, total: 0 });
+
+            if(currentUnitMode === "FINAL_EXAM") {
+                activeQuestions = Object.entries(quizData).flatMap(([k, u]) => u.questions.map(q => ({...q, unitKey: k}))).sort(() => 0.5 - Math.random()).slice(0, 15);
+            } else {
+                activeQuestions = quizData[currentUnitMode].questions.map(q => ({...q, unitKey: currentUnitMode}));
+            }
+            qIdx = 0; score = 0;
+            document.getElementById('home').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const data = activeQuestions[qIdx];
+            document.getElementById('q-count').innerText = `Question ${qIdx+1}/${activeQuestions.length}`;
+            document.getElementById('q-text').innerText = data.q;
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            const opts = document.getElementById('options');
+            opts.innerHTML = '';
+            data.o.forEach((o, i) => {
+                const b = document.createElement('button');
+                b.className = 'option';
+                b.innerText = o;
+                b.onclick = () => checkAns(i, b);
+                opts.appendChild(b);
+            });
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            let tl = 60;
+            timer = setInterval(() => {
+                tl--;
+                document.getElementById('timer-text').innerText = tl + 's';
+                if(tl <= 0) { clearInterval(timer); checkAns(-1, null); }
+            }, 1000);
+        }
+
+        function checkAns(idx, btn) {
+            clearInterval(timer);
+            const data = activeQuestions[qIdx];
+            const correct = data.a;
+            unitStats[data.unitKey].total++;
+            document.querySelectorAll('.option').forEach(b => b.disabled = true);
+            
+            if(idx === correct) {
+                score++;
+                unitStats[data.unitKey].correct++;
+                if(btn) btn.classList.add('correct');
+                setTimeout(handleNext, 1000);
+            } else {
+                if(btn) btn.classList.add('wrong');
+                document.querySelectorAll('.option')[correct].classList.add('correct');
+                document.getElementById('funny-remark').innerText = "Correction: The highlighted answer is the accurate one.";
+                document.getElementById('explanation-box').classList.remove('hidden');
+                document.getElementById('next-btn').classList.remove('hidden');
+            }
+        }
+
+        function handleNext() {
+            qIdx++;
+            if(qIdx < activeQuestions.length) loadQuestion();
+            else showResults();
+        }
+
+        function showResults() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('res-score').innerText = `${score} / ${activeQuestions.length}`;
+            document.getElementById('res-feedback').innerText = (score/activeQuestions.length) > 0.7 ? "Excellent Performance!" : "Good Effort, Keep Practicing!";
+        }
+
+        document.getElementById('mobile-menu').onclick = () => document.getElementById('nav-list').classList.toggle('active');
+    </script>
+
+<footer>
+ <div class="footer-bottom">
+    <p>© 2026 jabbarenotes.com | All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>jabbarenotes SSC-I SSC-II</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e40af;
+            --secondary:#4e81d1;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --card: #ffffff;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --radius: 1.5rem;
+            
+            /* 3D Glass Gradients */
+            --g1: linear-gradient(135deg, #60a5fa, #1e40af);
+            --g2: linear-gradient(135deg, #c084fc, #7c3aed);
+            --g3: linear-gradient(135deg, #f472b6, #db2777);
+            --g4: linear-gradient(135deg, #34d399, #059669);
+            --g5: linear-gradient(135deg, #fbbf24, #d97706);
+            --g6: linear-gradient(135deg, #22d3ee, #0891b2);
+            --g7: linear-gradient(135deg, #f87171, #dc2626);
+            --g-boss: linear-gradient(135deg, #818cf8, #4f46e5);
+        }
+
+        .dark-mode {
+            --bg: #0f172a;
+            --text: #f1f5f9;
+            --card: #1e293b;
+            --nav-bg: rgba(15, 23, 42, 0.95);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        /* --- STYLISH NAVIGATION --- */
+        .branding-bar {
+            background: var(--card);
+            padding: 0.75rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo { display: flex; align-items: center; text-decoration: none; gap: 10px; }
+        .logo img { height: 45px; }
+        .logo span { 
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: var(--g1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .menu { list-style: none; display: flex; justify-content: center; margin: 0; padding: 0; }
+        .menu > li { position: relative; }
+        .menu > li > a {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card);
+            min-width: 220px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border-radius: 0 0 12px 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: 0.3s;
+            list-style: none;
+            padding: 0.5rem 0;
+        }
+
+        .menu > li:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown li a { padding: 0.8rem 1.5rem; display: block; color: var(--text); text-decoration: none; }
+        .dropdown li a:hover { background: var(--primary); color: white; }
+
+        .menu-toggle { display: none; padding: 1rem; text-align: center; cursor: pointer; background: var(--primary); color: white; font-weight: bold; }
+
+        /* --- 3D ICON & BUTTON STYLING --- */
+        .unit-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 1.5rem; 
+            margin-top: 2rem; 
+        }
+
+        .unit-btn { 
+            background: var(--card); 
+            padding: 2rem 1rem;
+            border-radius: var(--radius); 
+            cursor: pointer; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .icon-box-3d {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            background: var(--icon-grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            position: relative;
+            box-shadow: 
+                0 10px 15px -5px rgba(0,0,0,0.2),
+                inset 0 -4px 6px rgba(0,0,0,0.15),
+                inset 0 4px 6px rgba(255,255,255,0.3);
+            transition: 0.3s;
+        }
+
+        .icon-box-3d i { font-size: 2rem; color: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+
+        .unit-btn:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .unit-btn:hover .icon-box-3d { animation: float 2s ease-in-out infinite; }
+        .unit-btn.active { border-color: var(--primary); background: #eff6ff; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        /* --- INTERFACE STYLES --- */
+        .heading { 
+            padding: 4rem 1rem; 
+            background: var(--g1); 
+            color: white; 
+            text-align: center; 
+            border-radius: 0 0 40px 40px;
+        }
+
+        .card { 
+            background: var(--card); 
+            padding: 2.5rem; 
+            border-radius: var(--radius); 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            margin-top: -2rem;
+        }
+
+        .btn-main { 
+            background: var(--g1); color: white; padding: 1.2rem; border: none; 
+            border-radius: 1rem; width: 100%; font-size: 1.2rem; font-weight: 800; cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+        }
+
+        .option { 
+            display: block; width: 100%; padding: 1.25rem; margin: 0.75rem 0; 
+            border: 2px solid #e2e8f0; border-radius: 1rem; background: var(--card); 
+            text-align: left; cursor: pointer; font-size: 1.1rem; font-weight: 500; transition: 0.2s;
+        }
+
+        .option:hover:not(:disabled) { border-color: var(--primary); background: #f1f5f9; }
+        .option.correct { background: var(--success) !important; color: white; }
+        .option.wrong { background: var(--danger) !important; color: white; }
+
+        .hidden { display: none; }
+        .containerMCQ { width: 90%; max-width: 1000px; margin: 0 auto 4rem auto; }
+
+        @media (max-width: 850px) {
+            .menu-toggle { display: block; }
+            .menu { display: none; flex-direction: column; background: var(--card); }
+            .menu.active { display: flex; }
+            .dropdown { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; display: none; }
+            .menu > li:hover .dropdown { display: block; }
+        }
+
+        
+/* Bottom copyright */
+.footer-bottom{
+
+    margin-top: 35px;
+    border: solid;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    
+}
+    </style>
+</head>
+<body>
+
+    <header class="branding-bar">
+        <a href="#" class="logo">
+            <img src="./images/logo.png" alt="Logo">
+            <span>JabbarEnotes</span>
+        </a>
+    </header>
+
+    <nav>
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i> MENU</div>
+        <ul class="menu" id="nav-list">
+            <li><a href="./index.html">Home</a></li>
+            <li>
+                <a href="#">8th Class <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a href="./P8.pdf">Practical Notes</a></li>
+                    <li><a href="#">Project Notes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">9th Class <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a href="./class9.html">Computer Science Notes</a></li>
+                    <li><a href="./MCQ_SSC_I.html">Computer Science MCQs</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">10th Class <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a href="./class10.html">Computer Science Notes</a></li>
+                    <li><a href="./MCQ_SSC_II.html">Computer Science MCQs</a></li>
+                </ul>
+            </li>
+            <li><a href="#">About Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="heading">
+        <h1>🚀 SSC-II Computer Science MCQs Portal</h1>
+        <p>Final Exam Prep - Curriculum 2022-23</p>
+        <p>Interactive 3D Learning Experience</p>
+    </div>
+
+    <div class="containerMCQ">
+        <div id="home" class="card">
+            <h2 style="text-align: center;">Choose Your Mission ⚔️</h2>
+            <div class="unit-grid" id="unit-list"></div>
+            <button class="btn-main" style="margin-top: 2.5rem;" onclick="startQuiz()">Start Battle 🏃‍♂️</button>
+        </div>
+
+        <div id="quiz" class="card hidden">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                <span id="q-count" style="font-weight: bold;">Question 1/0</span>
+                <span id="timer-text" style="color: var(--danger); font-weight: 800;">60s</span>
+            </div>
+            <h3 id="q-text" style="margin-bottom: 2rem;">Loading...</h3>
+            <div id="options"></div>
+            <div id="explanation-box" class="hidden" style="margin-top:1rem; padding:1rem; background:#fff9db; border-left:4px solid #f59e0b; border-radius:8px;">
+                <strong id="funny-remark"></strong>
+            </div>
+            <button id="next-btn" class="btn-main hidden" style="margin-top: 1.5rem;" onclick="handleNext()">Next Round ➡️</button>
+        </div>
+
+        <div id="results" class="card hidden" style="text-align: center;">
+            <h2>Mission Results 🏁</h2>
+            <div style="font-size: 4rem; font-weight: 900; color: var(--primary);" id="res-score">0/0</div>
+            <p id="res-feedback" style="font-size: 1.2rem; margin: 1.5rem 0;"></p>
+            <div id="unit-stats" style="text-align: left; margin: 2rem 0;"></div>
+            <button class="btn-main" onclick="location.reload()">Try Again? 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = {
+            "unit1": { title: "OS & Systems", icon: "fa-microchip", color: "var(--g1)", questions: [
+                { q: "What is the binary representation of the decimal number -43 using 8-bit two's complement notation?", o: ["10101011", "11010101", "11010101", "11101011"], a: 0 },
+                { q: "Which of the following binary numbers corresponds to the hexadecimal number 3FA7?", o: ["0011 1111 1010 0111", "1100 0011 1101 1000", "1011 1100 0011 0111", "0111 1011 1011 1100"], a: 0 },
+                { q: "How does the ASCII code for the character 'Z' (90 in decimal) look in binary?", o: ["1011010", "1001110", "1011000", "1101001"], a: 0 },
+                { q: "In an 8-bit signed integer representation, what is the range of values that can be represented?", o: ["-127 to 128", "-128 to 127", "0 to 255", "-256 to 255"], a: 1 },
+                { q: "How many different values can be represented with a 10-bit binary number?", o: ["256", "1024", "512", "2048"], a: 1 },
+                { q: "Which of the following is NOT a task performed by an operating system?", o: ["Process Management", "Memory Management", "Email Management", "Device Management"], a: 2 },
+                { q: "Which type of operating system allows multiple tasks to be performed at the same time?", o: ["Multiprogramming", "Batch Processing", "Real-time", "Single-tasking"], a: 0 },
+                { q: "Which state of a process represents that it is ready for execution but waiting for CPU time?", o: ["Start State", "Running State", "Ready State", "Blocked State"], a: 2 },
+                { q: "What is the main purpose of a process scheduler?", o: ["To manage file operations", "To manage CPU utilization", "To manage memory allocation", "To manage network resources"], a: 1 },
+                { q: "Which memory management approach involves dividing memory into fixed-sized blocks?", o: ["Paging", "Segmentation", "Virtual Memory", "Contiguous Allocation"], a: 0 },
+                { q: "What is the main purpose of interrupts in an operating system?", o: ["To speed up CPU processing", "To slow down CPU processing", "To handle immediate events", "To manage network connections"], a: 2 },
+                { q: "Which scheduling algorithm assigns CPU time in fixed time slices to each process in a cyclic order?", o: ["First-Come First-Served (FCFS)", "Shortest Job Next (SJN)", "Priority Scheduling", "Round Robin (RR)"], a: 3 },
+                { q: "Which memory management technique divides memory into fixed-sized blocks?", o: ["Segmentation", "Paging", "Fixed Partitioning", "Dynamic Partitioning"], a: 2 },
+                { q: "Which type of hosting involves installing and running software on servers located within an organization's physical premises?", o: ["Shared Hosting", "Dedicated Hosting", "On-Premises Hosting", "Cloud Hosting"], a: 2 },
+                { q: "Which component of programming software translates code written in a high-level programming language into machine code?", o: ["Text Editor", "Compiler", "Debugger", "IDE"], a: 1 }
+            ]},
+            "unit2": { title: "Algorithmic thinking", icon: "fa-brain", color: "var(--g2)", questions: [
+                { q: "Identify the activity based on personal preferences rather than algorithmic logic.", o: ["Sorting numbers in a list", "Deciding what to eat for dinner", "Determining if a number is prime", "Calculating square root"], a: 1 },
+                { q: "Counting Principle problems could easily be understood by the use of", o: ["Graph representation", "Tree representation", "Clock representation", "Map representation"], a: 1 },
+                { q: "In how many ways can you choose 2 out of 5 different books?", o: ["10", "20", "15", "5"], a: 0 },
+                { q: "A committee of 3 members from 8 people can be formed in", o: ["56", "84", "28", "120"], a: 2 },
+                { q: "5 shirts and 4 pants can make how many outfits?", o: ["9", "20", "15", "10"], a: 1 },
+                { q: "In how many ways can you select 3 fruits from 7 fruits?", o: ["35", "21", "56", "84"], a: 0 },
+                { q: "Pigeonhole Principle states that", o: ["Some containers empty", "At least one container has more than one item", "All containers full", "Each item different container"], a: 1 },
+                { q: "50 students: 30 math, 25 science, 15 both. At least one project?", o: ["35", "40", "45", "50"], a: 2 },
+                { q: "Which property ensures algorithm produces at least one output?", o: ["Input", "Output", "Definiteness", "Finiteness"], a: 1 },
+                { q: "Which property ensures algorithm ends after finite steps?", o: ["Input", "Finiteness", "Effectiveness", "Generality"], a: 1 }
+            ]},
+            "unit3": { title: "Web & Coding", icon: "fa-code", color: "var(--g3)", questions: [
+                { q: "Which of the following is primarily associated with front-end development?", o: ["Server management", "Database design", "User interface and design", "Memory Management"], a: 2 },
+                { q: "Which HTML attribute is required in the <input> element for email?", o: ["type='url'", "type='text'", "type='email'", "type='password'"], a: 2 },
+                { q: "In JavaScript, which method is used to add a new item to the end of a list?", o: ["push()", "add()", "leftshift()", "rightshift()"], a: 0 },
+                { q: "How do you access the third element in an array called myArray?", o: ["myArray[3]", "myArray[2]", "myArray[1]", "myArray[0]"], a: 1 },
+                { q: "To manually stop JavaScript code execution at a certain point, you can use:", o: ["console.log()", "stop", "break", "debugger"], a: 3 },
+                { q: "What is the primary purpose of unit tests?", o: ["Validate code syntax", "Test individual parts of code", "Style UI", "Deploy to production"], a: 1 },
+                { q: "Front-end development is also called ______.", o: ["Label", "Client-side", "Server", "Database"], a: 1 },
+                { q: "Table is an easy way to organize information in ______.", o: ["columns", "rows", "webpages", "list"], a: 0 },
+                { q: "Table's header cell is referred in ______ tag.", o: ["<th>", "<td>", "<caption>", "<tr>"], a: 0 },
+                { q: "Link between borders of neighboring table cell is determined by ______.", o: ["Link border", "border collapse", "border separate", "border"], a: 1 },
+                { q: "Distance between the cell's border and its content is called ______.", o: ["Cell", "Output", "Padding", "Style"], a: 2 },
+                { q: "An element style during animation is specified by ______.", o: ["@keyframe", "@style frame", "@highlighted frame", "@anchor frame"], a: 0 },
+                { q: "A single table cell is indicated by a ______ tag.", o: ["<tc>", "<td>", "<td>", "<th>"], a: 1 },
+                { q: "Arrays and lists can contain data types containing ______.", o: ["Alphabets", "Numbers", "Alphanumeric", "Checkboxes"], a: 2 },
+                { q: "ADT stands for ______.", o: ["Abstract Data type", "Abstract document type", "All Data type", "Any Data type"], a: 0 }
+            ]},
+            "unit4": { title: "AI & Data Science", icon: "fa-robot", color: "var(--g4)", questions: [
+                { q: "Primary benefit of integrating Mathematics & Statistics with Computer Science in Data Science?", o: ["Improved data visualization", "Better forecasting", "Increased accuracy", "Better decision making"], a: 3 },
+                { q: "Relationship between Data Science and Artificial Intelligence?", o: ["DS subset of AI", "AI is tool in DS", "Unrelated", "DS enables AI"], a: 3 },
+                { q: "Fundamental assumption of Turing Test?", o: ["Humans are better", "Machines are equal", "Intelligence levels vary", "Machines copy humans"], a: 2 },
+                { q: "What should be considered critically while developing AI chatbots?", o: ["User experience", "Data security", "Contextual awareness", "Emotional Intelligence"], a: 1 },
+                { q: "Ethical issue from AI integration into daily life devices?", o: ["Job displacement", "Increased energy use", "Improved service", "Enhanced security"], a: 0 },
+                { q: "AI field enabling smartphones to recognize faces?", o: ["NLP", "Computer vision", "Deep learning", "Neural networks"], a: 1 },
+                { q: "Model for categorizing feedback (positive/negative/neutral)?", o: ["Supervised learning", "Unsupervised learning", "Reinforcement learning", "Deep learning"], a: 0 },
+                { q: "Function of rewards & penalties in Reinforcement Learning?", o: ["Labeling data", "Evaluating performance", "Improving action choices", "Classifying outcomes"], a: 2 },
+                { q: "Stage ensuring model accuracy & privacy compliance?", o: ["Model Deployment", "Model Evaluation", "Data Analysis", "Maintenance & Monitoring"], a: 1 },
+                { q: "Key characteristic of Data Cleaning stage?", o: ["Data collection", "Error removal & organization", "Pattern identification", "Model deployment"], a: 1 }
+            ]},
+            "unit5": { title: "Emerging Tech", icon: "fa-link", color: "var(--g5)", questions: [
+                { q: "Technology used for management of supply chain is known as:", o: ["IoT", "Blockchain", "Cloud Computing", "AI Assistant"], a: 0 },
+                { q: "Technology that provides automation in manufacturing, healthcare, home, traffic monitoring, etc.:", o: ["IoT", "Blockchain", "Cloud Computing", "Robotics"], a: 3 },
+                { q: "Alternative to on-premises computing in business is:", o: ["AI Computing", "Server Computing", "Cloud Computing", "Network Computing"], a: 2 },
+                { q: "Branch of AI that enables computers to understand text and speech like humans:", o: ["Language Translation", "Digital Language Processing", "Robotics", "Natural Language Processing"], a: 3 },
+                { q: "Technology that enabled Cryptocurrency:", o: ["Cloud Computing", "Blockchain", "Robotics", "IoT"], a: 1 },
+                { q: "Virtual assistant developed by Microsoft:", o: ["Cortana", "Siri", "Alexa", "Bixby"], a: 0 },
+                { q: "Probable next words displayed while typing in search bar:", o: ["Document Analysis", "Sentiment Analysis", "Predictive Text", "Internet Suggestion"], a: 2 },
+                { q: "AI-based realistic but fake videos are known as:", o: ["Privacy Breach Videos", "Social Manipulation Videos", "Misinformation Videos", "Deepfake Videos"], a: 3 }
+            ]},
+            "unit6": { title: "Digital Safety", icon: "fa-user-shield", color: "var(--g6)", questions: [
+                { q: "______ is a key reason for being careful and responsible online?", o: ["To save money", "Avoid addiction & protect info", "Become popular", "Learn new skills"], a: 1 },
+                { q: "Spending too much time online can be harmful for?", o: ["Mental health & productivity", "Physical fitness & diet", "Shopping habits", "Travel plans"], a: 0 },
+                { q: "NOT a way to protect personal information online?", o: ["Strong passwords", "Alert for scams", "Share passwords with friends", "Update privacy settings"], a: 2 },
+                { q: "Technology addiction is described as", o: ["Occasional use", "Excessive device use", "Avoid all technology", "Only work use"], a: 1 },
+                { q: "Common result of excessive screen time?", o: ["Enhanced social skills", "Social isolation", "Improved academics", "Increased activity"], a: 1 },
+                { q: "Way to reduce technology addiction?", o: ["Increase gaming", "Mindful use", "Ignore signs", "Share info online"], a: 1 },
+                { q: "Benefit of using internet positively?", o: ["Online fraud", "Access to education", "Spread misinformation", "Cyberbullying"], a: 1 },
+                { q: "Positive use of internet?", o: ["Cybercrime", "Online harassment", "Supporting social meeting", "Illegal distribution"], a: 2 },
+                { q: "Way to protect device from threats?", o: ["Avoid antivirus", "Ignore updates", "Biometric authentication", "Share passwords"], a: 2 },
+                { q: "Hardware method to protect devices?", o: ["Biometric authentication", "Secure boot", "Firewalls", "All"], a: 0 },
+                { q: "What is a public cloud?", o: ["Used by one org", "Service for public", "Private network", "Secure boot process"], a: 1 },
+                { q: "Primary goal of cybersecurity?", o: ["Increase speed", "Protect systems & networks", "Develop software", "Create social media"], a: 1 },
+                { q: "Example of legal online activity?", o: ["Hack network", "Phishing scam", "Develop mobile app", "Deploy malware"], a: 2 },
+                { q: "Why is cybersecurity essential?", o: ["Faster transmission", "Less support", "Reduce cost", "Protect personal data"], a: 3 },
+                { q: "Role of students in minimizing digital divide?", o: ["Develop games", "Provide tech training", "Reduce device price", "Create social accounts"], a: 1 }
+            ]},
+            "unit7": { title: "Literacy & Content", icon: "fa-pen-nib", color: "var(--g7)", questions: [
+                { q: "Term for ability to effectively use digital technologies to access and evaluate information?", o: ["Literacy", "Digital Literacy", "Social Media", "Information"], a: 1 },
+                { q: "Best way to collect information about a topic?", o: ["Ask friend", "Read random book", "Search online & ask experts", "Guess information"], a: 2 },
+                { q: "Benefit of using Google Forms for data collection?", o: ["Small data", "Quickly analyze & summarize", "Historical data", "Visualize data"], a: 1 },
+                { q: "Most important step to convert information into graphics?", o: ["Decide purpose", "Select right tool", "Check local laws", "Decide design elements"], a: 0 },
+                { q: "Primary purpose of billboard design?", o: ["Show company identity", "Entertain audience", "Grab audience attention", "Provide details"], a: 2 },
+                { q: "Primary benefit of podcast as learning tool?", o: ["Brief overview", "Interactive presentation", "International news", "Language learning"], a: 1 },
+                { q: "Role of a podcast host?", o: ["Give own opinion", "Facilitate discussion", "Criticize guest", "Praise guest"], a: 1 },
+                { q: "Most common use of social media besides calls?", o: ["Education", "Sharing updates", "Translation", "Web surfing"], a: 1 },
+                { q: "Platform mostly used for educational tutorials & video content?", o: ["YouTube", "Facebook", "Instagram", "Podcast"], a: 0 },
+                { q: "Platform mostly used for news, discussion & opinions?", o: ["Facebook", "YouTube", "X (Twitter)", "Instagram"], a: 2 }
+            ]},
+            "unit8": { title: "Entrepreneurship", icon: "fa-lightbulb", color: "var(--g-boss)", questions: [
+                { q: "What is the primary goal of quantitative research?", o: ["To understand concepts and experiences", "To test or confirm theories and assumptions", "To explore cultural and behavioral patterns", "To gather in-depth insights on subjective topics"], a: 1 },
+                { q: "Which of the following is a common method in qualitative research?", o: ["Statistical analysis", "Surveys with closed-ended questions", "Thematic analysis", "Experiments"], a: 2 },
+                { q: "In quantitative research, what type of data is typically used for statistical analysis?", o: ["Textual descriptions", "Words and meanings", "Numerical values", "Visual images"], a: 2 },
+                { q: "Which method would you use if you want to understand how people feel about a new product?", o: ["Survey with Likert scale questions", "Series of in-depth interviews", "Experimental study", "Observational data analysis"], a: 1 },
+                { q: "Which type of question is best suited for collecting detailed feedback and open-ended responses?", o: ["Closed-ended question", "Likert scale question", "Open-ended question", "Binary question"], a: 2 },
+                { q: "What is a common problem with self-administered questionnaires?", o: ["High cost", "High response rates", "Nonresponse bias", "Experimenter bias"], a: 2 },
+                { q: "Which method is typically used to ensure results are not influenced by question framing?", o: ["Using leading questions", "Using double negatives", "Balanced framing", "Avoiding jargon"], a: 2 },
+                { q: "Which step in market validation involves estimating the potential market size and share for your product?", o: ["Conducting customer validation interviews", "Writing down goals, assumptions, and hypotheses", "Testing your product or service", "Assessing market size and share"], a: 3 },
+                { q: "What type of data is useful for researching the search volume of related terms?", o: ["Qualitative feedback from interviews", "Secondary data from market reports", "Monthly search volume data from search engines", "Customer demographic data"], a: 2 },
+                { q: "What information is typically included in a customer profile?", o: ["Financial statements of the business", "Demographics, behaviors, and pain points of customers", "Market trends and competitive analysis", "Internal company processes"], a: 1 },
+                { q: "What is one benefit of creating customer profiles?", o: ["Reduces the need for market research", "Decreases customer acquisition costs", "Eliminates the need for customer service", "Increases product complexity"], a: 1 },
+                { q: "What is the primary purpose of a business pitch?", o: ["To provide a comprehensive analysis of the business strategy", "To persuade investors or stakeholders of the business's potential and value", "To detail the day-to-day operations of the business", "To outline the long-term financial projections and market analysis"], a: 1 },
+                { q: "Which component of a business pitch addresses how your business will make money?", o: ["Problem Statement", "Solution", "Business Model", "Market Opportunity"], a: 2 },
+                { q: "In an elevator pitch, what is the primary purpose of the 'hook'?", o: ["To introduce the team members", "To provide detailed financial projections", "Grab audience attention & spark interest", "Explain competitive analysis"], a: 2 },
+                { q: "Main difference between a business plan & pitch document?", o: ["Plan more concise & visually appealing", "Pitch includes detailed research & finances", "Plan for internal planning, pitch for quick intro", "Plan shorter & less detailed than pitch"], a: 2 },
+                { q: "NOT a key component of a successful elevator pitch?", o: ["Unique Selling Proposition", "Detailed Financial Projections", "Brief Introduction", "Call to Action"], a: 1 },
+                { q: "Focus of a pitch document?", o: ["Long-term operational plans", "Detailed market research", "High-impact info & key points", "Extensive financial data & projections"], a: 2 },
+                { q: "Meaning of 'Market Opportunity' in a business pitch?", o: ["Financial model", "Potential market size & growth prospects", "Competitors", "Unique features of product/service"], a: 1 },
+                { q: "Role of 'Active Listening' in pitching?", o: ["Helps provide detailed financial data", "Allows adaptation based on audience feedback", "Focus on detailed operational plan", "Ensure pitch under 10 mins"], a: 1 },
+                { q: "Example of a call to action in an elevator pitch?", o: ["Our team has extensive experience in finance.", "We project revenue of $500,000 in first year.", "Can we schedule a meeting to discuss investment opportunities?", "Our solution is unique compared to others."], a: 2 }
+            ]}
+        };
+
+        let activeQuestions = [];
+        let currentUnitMode = "";
+        let qIdx = 0;
+        let score = 0;
+        let timer;
+        let unitStats = {};
+
+        const list = document.getElementById('unit-list');
+        Object.keys(quizData).forEach(key => {
+            const unit = quizData[key];
+            const d = document.createElement('div');
+            d.className = 'unit-btn';
+            d.style.setProperty('--icon-grad', unit.color);
+            d.innerHTML = `
+                <div class="icon-box-3d"><i class="fas ${unit.icon}"></i></div>
+                <strong>${unit.title}</strong>
+                <small>${unit.questions.length} Questions</small>`;
+            d.onclick = () => {
+                document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+                d.classList.add('active');
+                currentUnitMode = key;
+            };
+            list.appendChild(d);
+        });
+
+        const examBtn = document.createElement('div');
+        examBtn.className = 'unit-btn';
+        examBtn.style.setProperty('--icon-grad', 'var(--g-boss)');
+        examBtn.innerHTML = `<div class="icon-box-3d"><i class="fas fa-medal"></i></div><strong>Final Exam</strong><small>Random Mix</small>`;
+        examBtn.onclick = () => {
+            document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+            examBtn.classList.add('active');
+            currentUnitMode = "FINAL_EXAM";
+        };
+        list.appendChild(examBtn);
+
+        function startQuiz() {
+            if(!currentUnitMode) return alert("Select a Unit first!");
+            unitStats = {}; 
+            Object.keys(quizData).forEach(k => unitStats[k] = { correct: 0, total: 0 });
+
+            if(currentUnitMode === "FINAL_EXAM") {
+                activeQuestions = Object.entries(quizData).flatMap(([k, u]) => u.questions.map(q => ({...q, unitKey: k}))).sort(() => 0.5 - Math.random()).slice(0, 15);
+            } else {
+                activeQuestions = quizData[currentUnitMode].questions.map(q => ({...q, unitKey: currentUnitMode}));
+            }
+            qIdx = 0; score = 0;
+            document.getElementById('home').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const data = activeQuestions[qIdx];
+            document.getElementById('q-count').innerText = `Question ${qIdx+1}/${activeQuestions.length}`;
+            document.getElementById('q-text').innerText = data.q;
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            const opts = document.getElementById('options');
+            opts.innerHTML = '';
+            data.o.forEach((o, i) => {
+                const b = document.createElement('button');
+                b.className = 'option';
+                b.innerText = o;
+                b.onclick = () => checkAns(i, b);
+                opts.appendChild(b);
+            });
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            let tl = 60;
+            timer = setInterval(() => {
+                tl--;
+                document.getElementById('timer-text').innerText = tl + 's';
+                if(tl <= 0) { clearInterval(timer); checkAns(-1, null); }
+            }, 1000);
+        }
+
+        function checkAns(idx, btn) {
+            clearInterval(timer);
+            const data = activeQuestions[qIdx];
+            const correct = data.a;
+            unitStats[data.unitKey].total++;
+            document.querySelectorAll('.option').forEach(b => b.disabled = true);
+            
+            if(idx === correct) {
+                score++;
+                unitStats[data.unitKey].correct++;
+                if(btn) btn.classList.add('correct');
+                setTimeout(handleNext, 1000);
+            } else {
+                if(btn) btn.classList.add('wrong');
+                document.querySelectorAll('.option')[correct].classList.add('correct');
+                document.getElementById('funny-remark').innerText = "Correction: The highlighted answer is the accurate one.";
+                document.getElementById('explanation-box').classList.remove('hidden');
+                document.getElementById('next-btn').classList.remove('hidden');
+            }
+        }
+
+        function handleNext() {
+            qIdx++;
+            if(qIdx < activeQuestions.length) loadQuestion();
+            else showResults();
+        }
+
+        function showResults() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('res-score').innerText = `${score} / ${activeQuestions.length}`;
+            document.getElementById('res-feedback').innerText = (score/activeQuestions.length) > 0.7 ? "Excellent Performance!" : "Good Effort, Keep Practicing!";
+        }
+
+        document.getElementById('mobile-menu').onclick = () => document.getElementById('nav-list').classList.toggle('active');
+    </script>
+    
+<footer>
+ <div class="footer-bottom">
+    <p>© 2026 jabbarenotes.com | All Rights Reserved</p>
+  </div>
+</footer>
+</body>
+</html>
