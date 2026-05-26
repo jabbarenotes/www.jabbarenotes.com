@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pseudocode Activities | Jabbar Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+:root {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --secondary: #14b8a6;
+    --accent: #8b5cf6;
+    --text: #0f172a;
+    --light-text: #475569;
+    --card-bg: rgba(255, 255, 255, 0.93);
+    --code-bg: #0f172a;
+}
+
+/* Basic Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+    color: var(--text);
+    line-height: 1.75;
+    min-height: 100vh;
+}
+
+/* ==================== HEADER ==================== */
+header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+    color: white;
+    text-align: center;
+    padding: 130px 20px 170px;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before, header::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
+}
+header::before {
+    width: 600px; height: 600px;
+    top: -100px; right: -120px;
+    background: #67e8f9;
+}
+header::after {
+    width: 500px; height: 500px;
+    bottom: -80px; left: -100px;
+    background: #a5f3fc;
+}
+
+header h1 {
+    font-size: 4.1rem;
+    font-weight: 900;
+    letter-spacing: -3px;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, #f0f9ff, #ffffff, #bae6fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 2;
+}
+
+header p {
+    font-size: 1.45rem;
+    font-weight: 500;
+    opacity: 0.96;
+    position: relative;
+    z-index: 2;
+}
+
+/* ==================== SECTION & CARDS ==================== */
+.section {
+    max-width: 1050px;
+    margin: -105px auto 90px;
+    padding: 0 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border-radius: 28px;
+    padding: 38px 40px;
+    margin: 35px 0;
+    border: 1px solid rgba(255,255,255,0.65);
+    box-shadow: 0 15px 35px -8px rgba(59, 130, 246, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 25px 55px -10px rgba(59, 130, 246, 0.28);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 5px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+/* Badge with Animation */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 22px;
+    background: linear-gradient(90deg, #dbeafe, #bfdbfe);
+    color: #1e40af;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 50px;
+    margin-bottom: 18px;
+    letter-spacing: 0.6px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    transition: all 0.3s ease;
+}
+
+.badge i {
+    transition: transform 0.4s ease;
+}
+
+.card:hover .badge i {
+    transform: scale(1.2) rotate(8deg);
+}
+
+/* Icon Animations */
+.icon-animate {
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover .icon-animate {
+    transform: scale(1.15) rotate(5deg);
+    color: var(--secondary);
+}
+
+/* Headings */
+h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e2937;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Code Block */
+.code {
+    background: var(--code-bg);
+    border-radius: 20px;
+    padding: 24px 0;
+    font-family: "Fira Code", monospace;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: #e2e8f0;
+    box-shadow: inset 0 6px 25px rgba(0,0,0,0.45);
+    border: 1px solid #334155;
+    overflow: hidden;
+}
+
+.line {
+    display: flex;
+    padding: 9px 28px;
+    transition: all 0.25s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.line:last-child { border-bottom: none; }
+
+.line:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(6px);
+}
+
+.line span {
+    width: 105px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 80px 20px 60px;
+    background: #0f172a;
+    color: #94a3b8;
+    font-size: 1.02rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header { padding: 90px 15px 130px; }
+    header h1 { font-size: 2.75rem; }
+    .section { margin-top: -70px; }
+    .card { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Algorithmic Thinking and Problem Solving</h1>
+    <p>Prepared by <strong>Muhammad Jabbar</strong></p>
+</header>
+
+<div class="section">
+
+    <!-- Activity 1 -->
+    <div class="card">
+        <div class="badge"><i class="fas fa-brain icon-animate"></i> Logic Practice</div>
+        <h2><i class="fas fa-lightbulb icon-animate"></i> Activity - 1</h2>
+        <p>Write a pseudocode that tells a user that the number they entered is not a five or six</p>
+        <div class="code">
+            <div class="line"><span>Line 0:</span>START</div>
+            <div class="line"><span>Line 1:</span>DISPLAY "Enter a number"</div>
+            <div class="line"><span>Line 2:</span>INPUT number</div>
+            <div class="line"><span>Line 3:</span>IF number = 5 OR number = 6 THEN</div>
+            <div class="line"><span>Line 4:</span>    DISPLAY "You entered", number</div>
+            <div class="line"><span>Line 5:</span>ELSE</div>
+            <div class="line"><span>Line 6:</span>    DISPLAY "The number you entered is not 5 or 6"</div>
+            <div class="line"><span>Line 7:</span>END IF</div>
+            <div class="line"><span>Line 8:</span>END</div>
+        </div>
+    </div>
+
+    <!-- Activity 2 -->
+    <div class="card">
+        <div class="badge"><i class="fas fa-palette icon-animate"></i> Multi-Selection</div>
+        <h2><i class="fas fa-layer-group icon-animate"></i> Activity - 2</h2>
+        <p>Write pseudo code that performs the following: Ask a user to enter a number. if the number is between 0 and 10, write the word blue. If the number is between 10 and 20, write the word red. If the number is between 20 and 30, write the word green. If it is any other number, write that it is not a correct color option.</p>
+        <div class="code">
+            <div class="line"><span>Line 0:</span>START</div>
+            <div class="line"><span>Line 1:</span>DISPLAY "Enter a number"</div>
+            <div class="line"><span>Line 2:</span>INPUT number</div>
+            <div class="line"><span>Line 3:</span>IF number >= 0 AND number < 10 THEN</div>
+            <div class="line"><span>Line 4:</span>    DISPLAY "Blue"</div>
+            <div class="line"><span>Line 5:</span>ELSE IF number >= 10 AND number < 20 THEN</div>
+            <div class="line"><span>Line 6:</span>    DISPLAY "Red"</div>
+            <div class="line"><span>Line 7:</span>ELSE IF number >= 20 AND number < 30 THEN</div>
+            <div class="line"><span>Line 8:</span>    DISPLAY "Green"</div>
+            <div class="line"><span>Line 9:</span>ELSE</div>
+            <div class="line"><span>Line 10:</span>    DISPLAY "It is not a correct color option"</div>
+            <div class="line"><span>Line 11:</span>END IF</div>
+            <div class="line"><span>Line 12:</span>END</div>
+        </div>
+    </div>
+
+    <!-- Activity 3 -->
+    <div class="card">
+        <div class="badge"><i class="fas fa-dice icon-animate"></i> Looping</div>
+        <h2><i class="fas fa-redo icon-animate"></i> Activity – 3</h2>
+        <p>Write pseudocode of rolling a dice program between players, turn by turn. If dice rolls a 6, the same player rolls the dice again.</p>
+        <div class="code">
+            <div class="line"><span>Line 0:</span>START</div>
+            <div class="line"><span>Line 1:</span>SET player = 1</div>
+            <div class="line"><span>Line 2:</span>SET totalPlayers = 2</div>
+            <div class="line"><span>Line 3:</span>WHILE game is not finished DO</div>
+            <div class="line"><span>Line 4:</span>    DISPLAY "Player", player, "turn"</div>
+            <div class="line"><span>Line 5:</span>    REPEAT</div>
+            <div class="line"><span>Line 6:</span>        dice ← RANDOM number between 1 and 6</div>
+            <div class="line"><span>Line 7:</span>        DISPLAY "Player", player, "rolled:", dice</div>
+            <div class="line"><span>Line 8:</span>    UNTIL dice ≠ 6</div>
+            <div class="line"><span>Line 9:</span>    player = player + 1</div>
+            <div class="line"><span>Line 10:</span>    IF player > totalPlayers THEN</div>
+            <div class="line"><span>Line 11:</span>        player = 1</div>
+            <div class="line"><span>Line 12:</span>    END IF</div>
+            <div class="line"><span>Line 13:</span>END WHILE</div>
+            <div class="line"><span>Line 14:</span>END</div>
+        </div>
+    </div>
+
+    <!-- Activity 4 -->
+    <div class="card">
+        <div class="badge"><i class="fas fa-trophy icon-animate"></i> Iteration</div>
+        <h2><i class="fas fa-medal icon-animate"></i> Activity – 4</h2>
+        <p>Write pseudocode, that execute the above pseudocode 10 times, count the score of both players and announce the winner or match drawn; in the end.</p>
+        <div class="code">
+            <div class="line"><span>Line 0:</span>START</div>
+            <div class="line"><span>Line 1:</span>SET score1=0, score2=0</div>
+            <div class="line"><span>Line 2:</span>FOR turnCount = 1 TO 10 DO</div>
+            <div class="line"><span>Line 3:</span>    FOR player = 1 TO 2 DO</div>
+            <div class="line"><span>Line 4:</span>        REPEAT</div>
+            <div class="line"><span>Line 5:</span>            dice = RANDOM number between 1 and 6</div>
+            <div class="line"><span>Line 6:</span>            DISPLAY "Player", player, "rolled:", dice</div>
+            <div class="line"><span>Line 7:</span>            IF player = 1 THEN score1 = score1 + dice ELSE score2 = score2 + dice</div>
+            <div class="line"><span>Line 8:</span>        UNTIL dice ≠ 6</div>
+            <div class="line"><span>Line 9:</span>    END FOR</div>
+            <div class="line"><span>Line 10:</span>END FOR</div>
+            <div class="line"><span>Line 11:</span>DISPLAY "Player 1 Score =", score1, "Player 2 Score =", score2</div>
+            <div class="line"><span>Line 12:</span>IF score1 > score2 THEN DISPLAY "Player 1 Wins"</div>
+            <div class="line"><span>Line 13:</span>ELSE IF score2 > score1 THEN DISPLAY "Player 2 Wins"</div>
+            <div class="line"><span>Line 14:</span>ELSE DISPLAY "Match Drawn"</div>
+            <div class="line"><span>Line 15:</span>END</div>
+        </div>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="card">
+        <div class="badge"><i class="fas fa-calculator icon-animate"></i> Math Operators</div>
+        <h2><i class="fas fa-divide icon-animate"></i> Example – 4</h2>
+        <p>Write pseudocode, that allows a user to check whether the input (any number) is even or odd.</p>
+        <div class="code">
+            <div class="line"><span>Line 0:</span>START</div>
+            <div class="line"><span>Line 1:</span>DISPLAY "Enter a number"</div>
+            <div class="line"><span>Line 2:</span>INPUT number</div>
+            <div class="line"><span>Line 3:</span>IF number MOD 2 = 0 THEN</div>
+            <div class="line"><span>Line 4:</span>    DISPLAY "The number is Even"</div>
+            <div class="line"><span>Line 5:</span>ELSE</div>
+            <div class="line"><span>Line 6:</span>    DISPLAY "The number is Odd"</div>
+            <div class="line"><span>Line 7:</span>END IF</div>
+            <div class="line"><span>Line 8:</span>END</div>
+        </div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="card">
+        <div class="badge"><i class="fas fa-chart-bar icon-animate"></i> Calculations</div>
+        <h2><i class="fas fa-percentage icon-animate"></i> Example – 5</h2>
+        <p>Write pseudocode, that generate average of the marks of five subjects.</p>
+        <div class="code">
+            <div class="line"><span>Line 0:</span>START</div>
+            <div class="line"><span>Line 1:</span>DISPLAY "Enter marks of 5 subjects"</div>
+            <div class="line"><span>Line 2:</span>INPUT mark1, mark2, mark3, mark4, mark5</div>
+            <div class="line"><span>Line 3:</span>total = mark1 + mark2 + mark3 + mark4 + mark5</div>
+            <div class="line"><span>Line 4:</span>average = total / 5</div>
+            <div class="line"><span>Line 5:</span>DISPLAY "The average marks are:", average</div>
+            <div class="line"><span>Line 6:</span>END</div>
+        </div>
+    </div>
+
+    <!-- Largest Number -->
+    <div class="card">
+        <div class="badge"><i class="fas fa-sort-amount-down icon-animate"></i> Nested Logic</div>
+        <h2><i class="fas fa-crown icon-animate"></i> Conditional Statement</h2>
+        <p>Write pseudocode, that compare three different numbers A, B and C and find out the largest number.</p>
+        <div class="code">
+            <div class="line"><span>Line 0:</span>START</div>
+            <div class="line"><span>Line 1:</span>DISPLAY "Enter three numbers A, B, and C"</div>
+            <div class="line"><span>Line 2:</span>INPUT A, B, C</div>
+            <div class="line"><span>Line 3:</span>IF A > B AND A > C THEN</div>
+            <div class="line"><span>Line 4:</span>    DISPLAY "A is the largest number"</div>
+            <div class="line"><span>Line 5:</span>ELSE IF B > A AND B > C THEN</div>
+            <div class="line"><span>Line 6:</span>    DISPLAY "B is the largest number"</div>
+            <div class="line"><span>Line 7:</span>ELSE</div>
+            <div class="line"><span>Line 8:</span>    DISPLAY "C is the largest number"</div>
+            <div class="line"><span>Line 9:</span>END IF</div>
+            <div class="line"><span>Line 10:</span>END</div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 <strong>JabbarNotes.com</strong> | Programming Education Series
+</footer>
+
+</body>
+</html>

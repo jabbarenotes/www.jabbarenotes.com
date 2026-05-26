@@ -1,0 +1,750 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue:    #2563eb;
+  --violet:  #7c3aed;
+  --pink:    #ec4899;
+  --orange:  #f97316;
+  --green:   #10b981;
+  --red:     #ef4444;
+  --gold:    #f59e0b;
+  --r: 1.25rem;
+}
+
+.emcq-wrap *, .emcq-wrap *::before, .emcq-wrap *::after {
+  box-sizing: border-box; margin: 0; padding: 0;
+}
+
+/* ── WRAPPER ── */
+.emcq-wrap {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: #f1f5ff;
+  min-height: 100vh;
+  padding: 0 0 4rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Rainbow header */
+.emcq-wrap .emcq-header-bar {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 40%, #ec4899 70%, #f97316 100%);
+  padding: 2.8rem 1.5rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.emcq-wrap .emcq-header-bar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.emcq-wrap .emcq-header-bar h1 {
+  color: #fff; font-size: clamp(1.7rem, 5vw, 2.6rem); font-weight: 900;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.2); position: relative; letter-spacing: -0.5px;
+}
+.emcq-wrap .emcq-header-bar p {
+  color: rgba(255,255,255,0.82); font-size: 0.95rem; margin-top: 0.5rem; position: relative;
+}
+
+.emcq-wrap .emcq-wave {
+  display: block; width: 100%; height: 60px;
+  background: #f1f5ff;
+  clip-path: ellipse(55% 100% at 50% 100%);
+  margin-top: -1px;
+}
+
+/* ── CONTAINER ── */
+.emcq-wrap .container {
+  width: 94%; max-width: 860px;
+  margin: -3.5rem auto 0;
+  position: relative; z-index: 2;
+}
+
+/* ── BACK TO HOME BUTTON ── */
+.emcq-wrap .emcq-back-home {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: #fff; color: #2563eb;
+  border: 2px solid #c7d2fe;
+  border-radius: 2rem;
+  padding: 0.55rem 1.3rem;
+  font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 0 #c7d2fe, 0 6px 16px rgba(37,99,235,0.12);
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.emcq-wrap .emcq-back-home:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #a5b4fc, 0 10px 20px rgba(37,99,235,0.18);
+}
+.emcq-wrap .emcq-back-home:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #c7d2fe;
+}
+
+/* ── 3D CARD ── */
+.emcq-wrap .card {
+  background: #fff;
+  border-radius: 1.5rem;
+  padding: 2.4rem;
+  box-shadow:
+    0 1px  2px rgba(0,0,0,0.04),
+    0 4px  8px rgba(0,0,0,0.06),
+    0 12px 24px rgba(37,99,235,0.10),
+    0 32px 56px rgba(124,58,237,0.10),
+    0 0 0 1px rgba(37,99,235,0.07);
+  position: relative;
+  animation: eSlideUp 0.5s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+.emcq-wrap .card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 1.5rem; bottom: 1.5rem; width: 5px;
+  background: linear-gradient(180deg, var(--blue), var(--violet), var(--pink));
+  border-radius: 0 3px 3px 0;
+}
+@keyframes eSlideUp {
+  from { opacity:0; transform: translateY(30px) perspective(600px) rotateX(4deg); }
+  to   { opacity:1; transform: translateY(0)   perspective(600px) rotateX(0deg); }
+}
+
+/* ── HOME TITLE ── */
+.emcq-wrap .home-title {
+  font-size: 1.35rem; font-weight: 800; color: #1e1b4b;
+  text-align: center; margin-bottom: 0.25rem;
+}
+.emcq-wrap .home-sub {
+  text-align: center; font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.25rem;
+}
+
+/* ── UNIT GRID ── */
+.emcq-wrap .unit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1.1rem; margin-top: 1.5rem;
+}
+
+/* Stylish 3D unit cards */
+.emcq-wrap .unit-btn {
+  background: #fff;
+  border: none;
+  border-radius: 1.3rem;
+  padding: 0;
+  text-align: center;
+  cursor: pointer;
+  color: #1e1b4b;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 8px 0 #c7d2fe,
+    0 12px 28px rgba(99,102,241,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+  transform: translateY(0) perspective(600px) rotateX(0deg);
+}
+
+/* colored gradient top strip */
+.emcq-wrap .unit-btn::before {
+  content: '';
+  display: block; height: 7px; width: 100%;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  border-radius: 1.3rem 1.3rem 0 0; flex-shrink: 0;
+}
+.emcq-wrap .unit-btn:nth-child(2)::before { background: linear-gradient(90deg, #7c3aed, #ec4899); }
+.emcq-wrap .unit-btn:nth-child(3)::before { background: linear-gradient(90deg, #ec4899, #f97316); }
+.emcq-wrap .unit-btn:nth-child(4)::before { background: linear-gradient(90deg, #f97316, #f59e0b); }
+.emcq-wrap .unit-btn:nth-child(5)::before { background: linear-gradient(90deg, #10b981, #2563eb); }
+.emcq-wrap .unit-btn:nth-child(6)::before { background: linear-gradient(90deg, #ef4444, #7c3aed); }
+.emcq-wrap .unit-btn:nth-child(7)::before { background: linear-gradient(90deg, #f59e0b, #10b981); }
+
+/* inner content wrapper */
+.emcq-wrap .unit-btn .ucard-inner {
+  padding: 1.3rem 0.8rem 1.2rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+}
+
+/* emoji circle */
+.emcq-wrap .unit-btn .ucard-icon {
+  width: 58px; height: 58px; border-radius: 50%;
+  background: linear-gradient(135deg, #f1f5ff, #e0e7ff);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.9rem;
+  box-shadow: 0 4px 12px rgba(99,102,241,0.2), inset 0 1px 0 #fff;
+  margin-bottom: 0.3rem;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+}
+.emcq-wrap .unit-btn:hover .ucard-icon {
+  transform: scale(1.18) rotate(-8deg) translateY(-3px);
+  box-shadow: 0 8px 20px rgba(99,102,241,0.28);
+}
+.emcq-wrap .unit-btn .ucard-pill {
+  display: inline-block; font-size: 0.67rem; font-weight: 700;
+  background: #e0e7ff; color: #4f46e5;
+  border-radius: 99px; padding: 0.18rem 0.65rem;
+  letter-spacing: 0.3px; margin-top: 0.15rem;
+}
+.emcq-wrap .unit-btn strong {
+  display: block; font-size: 0.78rem; font-weight: 700; line-height: 1.4; color: #1e1b4b;
+}
+
+/* hover lift */
+.emcq-wrap .unit-btn:hover {
+  transform: translateY(-6px) perspective(600px) rotateX(3deg);
+  box-shadow:
+    0 14px 0 #a5b4fc,
+    0 20px 40px rgba(99,102,241,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.emcq-wrap .unit-btn:active {
+  transform: translateY(4px) perspective(600px) rotateX(-2deg);
+  box-shadow: 0 3px 0 #c7d2fe, 0 6px 12px rgba(99,102,241,0.1);
+}
+.emcq-wrap .unit-btn.active {
+  background: linear-gradient(160deg, #2563eb 0%, #7c3aed 60%, #ec4899 100%);
+  color: #fff;
+  box-shadow:
+    0 8px 0 #1d4ed8,
+    0 14px 32px rgba(37,99,235,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  transform: translateY(-3px);
+}
+.emcq-wrap .unit-btn.active::before { opacity: 0; height: 0; }
+.emcq-wrap .unit-btn.active strong { color: #fff; }
+.emcq-wrap .unit-btn.active .ucard-icon { background: rgba(255,255,255,0.2); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.emcq-wrap .unit-btn.active .ucard-pill { background: rgba(255,255,255,0.25); color: #fff; }
+
+/* Gold exam button */
+#emcq-exam-btn {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  box-shadow: 0 8px 0 #fcd34d, 0 12px 28px rgba(245,158,11,0.2) !important;
+}
+#emcq-exam-btn::before { background: linear-gradient(90deg, #f59e0b, #f97316, #ec4899) !important; }
+#emcq-exam-btn .ucard-icon { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+#emcq-exam-btn strong { color: #92400e !important; }
+#emcq-exam-btn .ucard-pill { background: #fef3c7; color: #92400e; }
+#emcq-exam-btn:hover {
+  transform: translateY(-6px) perspective(600px) rotateX(3deg) !important;
+  box-shadow: 0 14px 0 #f59e0b, 0 20px 40px rgba(245,158,11,0.3) !important;
+}
+#emcq-exam-btn.active {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  box-shadow: 0 8px 0 #b45309, 0 14px 32px rgba(245,158,11,0.4) !important;
+}
+#emcq-exam-btn.active::before { opacity:0; height:0; }
+#emcq-exam-btn.active strong { color: #fff !important; }
+#emcq-exam-btn.active .ucard-icon { background: rgba(255,255,255,0.2); }
+#emcq-exam-btn.active .ucard-pill { background: rgba(255,255,255,0.25); color:#fff; }
+
+/* ── START BUTTON ── */
+.emcq-wrap .btn-main {
+  display: block; width: 100%; padding: 1.05rem;
+  border: none; border-radius: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  cursor: pointer; letter-spacing: 0.2px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #fff;
+  box-shadow: 0 6px 0 #1d4ed8, 0 10px 24px rgba(37,99,235,0.35);
+  transition: all 0.15s;
+  transform: translateY(0);
+}
+.emcq-wrap .btn-main:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #1d4ed8, 0 16px 32px rgba(37,99,235,0.4); }
+.emcq-wrap .btn-main:active { transform: translateY(4px); box-shadow: 0 2px 0 #1d4ed8, 0 4px 10px rgba(37,99,235,0.2); }
+
+/* ── QUIZ TOPBAR ── */
+.emcq-wrap .quiz-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.4rem; gap: 0.75rem;
+}
+.emcq-wrap .back-units-btn {
+  background: #f1f5ff; border: 2px solid #c7d2fe; border-radius: 2rem;
+  color: var(--blue); font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem; font-weight: 700; padding: 0.45rem 1.1rem;
+  cursor: pointer; box-shadow: 0 3px 0 #c7d2fe; transition: all 0.15s;
+}
+.emcq-wrap .back-units-btn:hover { background: #e0e7ff; transform: translateY(-2px); box-shadow: 0 5px 0 #a5b4fc; }
+.emcq-wrap .back-units-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #c7d2fe; }
+.emcq-wrap .q-counter {
+  font-size: 0.82rem; font-weight: 700; color: #4f46e5;
+  background: #e0e7ff; border-radius: 2rem; padding: 0.4rem 1rem;
+}
+
+/* Circular timer */
+.emcq-wrap .timer-wrap { position: relative; width: 54px; height: 54px; flex-shrink: 0; filter: drop-shadow(0 4px 8px rgba(239,68,68,0.25)); }
+.emcq-wrap .timer-wrap svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.emcq-wrap .timer-track { fill: none; stroke: #fee2e2; stroke-width: 4; }
+.emcq-wrap .timer-ring  { fill: none; stroke: var(--red); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 138; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke 0.5s; }
+.emcq-wrap .timer-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; color: var(--red); }
+
+/* Progress bar */
+.emcq-wrap .progress-wrap { margin-bottom: 1.4rem; }
+.emcq-wrap .progress-track { height: 8px; background: #e0e7ff; border-radius: 99px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(99,102,241,0.1); }
+.emcq-wrap .progress-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #7c3aed, #ec4899); border-radius: 99px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(99,102,241,0.4); }
+
+/* Question text */
+.emcq-wrap .q-text {
+  font-size: clamp(0.95rem, 2.5vw, 1.13rem); font-weight: 600; line-height: 1.65; color: #1e1b4b;
+  background: linear-gradient(135deg, #f1f5ff, #e0e7ff);
+  border-left: 5px solid #2563eb; border-radius: 0 0.9rem 0.9rem 0;
+  padding: 1.2rem 1.4rem; margin-bottom: 1.2rem;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.08);
+}
+
+/* ── OPTIONS ── */
+.emcq-wrap .option {
+  display: flex; align-items: center; gap: 0.9rem;
+  width: 100%; padding: 0.95rem 1.2rem; margin: 0.55rem 0;
+  border: 2.5px solid #e0e7ff; border-radius: 1rem;
+  background: #fff; color: #1e1b4b;
+  text-align: left; cursor: pointer;
+  font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 500;
+  box-shadow: 0 4px 0 #c7d2fe, 0 6px 14px rgba(99,102,241,0.08);
+  transform: translateY(0);
+  transition: all 0.15s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative; overflow: hidden;
+}
+.emcq-wrap .option::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.06));
+  transition: width 0.25s;
+}
+.emcq-wrap .option:hover:not(:disabled) {
+  border-color: #818cf8; transform: translateY(-3px);
+  box-shadow: 0 7px 0 #a5b4fc, 0 12px 24px rgba(99,102,241,0.18);
+  color: #2563eb;
+}
+.emcq-wrap .option:hover:not(:disabled)::before { width: 100%; }
+.emcq-wrap .option:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 #c7d2fe, 0 2px 6px rgba(99,102,241,0.1); }
+.emcq-wrap .opt-label {
+  min-width: 32px; height: 32px; border-radius: 50%;
+  background: #e0e7ff; color: #4f46e5;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 800; flex-shrink: 0;
+  transition: all 0.2s; box-shadow: 0 2px 4px rgba(99,102,241,0.15);
+}
+.emcq-wrap .option:hover:not(:disabled) .opt-label { background: #2563eb; color: #fff; transform: scale(1.1) rotate(-8deg); }
+.emcq-wrap .option.correct {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important;
+  border-color: #10b981 !important; color: #064e3b !important;
+  box-shadow: 0 6px 0 #6ee7b7, 0 10px 24px rgba(16,185,129,0.25) !important;
+  animation: ePopCorrect 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.emcq-wrap .option.correct .opt-label { background: #10b981; color: #fff; transform: scale(1.2); }
+.emcq-wrap .option.wrong {
+  background: linear-gradient(135deg, #fee2e2, #fecaca) !important;
+  border-color: #ef4444 !important; color: #7f1d1d !important;
+  box-shadow: 0 6px 0 #fca5a5, 0 10px 24px rgba(239,68,68,0.2) !important;
+  animation: eShakeWrong 0.4s ease;
+}
+.emcq-wrap .option.wrong .opt-label { background: #ef4444; color: #fff; }
+.emcq-wrap .option:disabled { cursor: not-allowed; }
+
+@keyframes ePopCorrect {
+  0%   { transform: scale(0.95) translateY(0); }
+  50%  { transform: scale(1.04) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
+}
+@keyframes eShakeWrong {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-5px); }
+  80%     { transform: translateX(5px); }
+}
+
+/* Next button */
+#emcq-next-btn {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  box-shadow: 0 6px 0 #ea580c, 0 10px 24px rgba(249,115,22,0.35);
+  margin-top: 1rem;
+}
+#emcq-next-btn:hover { box-shadow: 0 9px 0 #ea580c, 0 16px 32px rgba(249,115,22,0.4); }
+
+/* ── RESULTS ── */
+.emcq-wrap .results-title {
+  font-size: clamp(1.4rem, 4vw, 1.9rem); font-weight: 900; text-align: center;
+  background: linear-gradient(135deg, #2563eb, #7c3aed, #ec4899);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.5rem;
+}
+.emcq-wrap .score-ring {
+  width: 170px; height: 170px; margin: 1.5rem auto; position: relative;
+  filter: drop-shadow(0 12px 24px rgba(37,99,235,0.25));
+}
+.emcq-wrap .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.emcq-wrap .score-track { fill: none; stroke: #e0e7ff; stroke-width: 12; }
+.emcq-wrap .score-fill  {
+  fill: none; stroke-width: 12; stroke-linecap: round;
+  stroke-dasharray: 440; stroke-dashoffset: 440;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.4,0,0.2,1);
+  stroke: url(#eScoreGrad);
+}
+.emcq-wrap .score-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.emcq-wrap .score-num {
+  font-size: 2.6rem; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.emcq-wrap .score-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; color: #94a3b8; margin-top: 4px; }
+
+.emcq-wrap .skill-breakdown { margin-top: 1.5rem; }
+.emcq-wrap .skill-breakdown h3 { font-size: 0.72rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 1rem; }
+.emcq-wrap .stat-row {
+  margin-bottom: 1rem; background: #f8faff;
+  border: 1.5px solid #e0e7ff; border-radius: 0.9rem;
+  padding: 0.9rem 1.1rem; box-shadow: 0 3px 0 #c7d2fe;
+  transition: transform 0.2s;
+}
+.emcq-wrap .stat-row:hover { transform: translateY(-2px); }
+.emcq-wrap .stat-labels { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.6rem; }
+.emcq-wrap .stat-labels strong { color: #1e1b4b; font-weight: 700; }
+.emcq-wrap .stat-labels span {
+  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.emcq-wrap .stat-track { height: 10px; background: #e0e7ff; border-radius: 99px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(99,102,241,0.12); }
+.emcq-wrap .stat-fill {
+  height: 100%; background: linear-gradient(90deg, #2563eb, #7c3aed);
+  border-radius: 99px; width: 0%;
+  transition: width 1.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 0 10px rgba(99,102,241,0.4);
+}
+.emcq-wrap .stat-fill.gold { background: linear-gradient(90deg, #f59e0b, #ec4899); box-shadow: 0 0 10px rgba(245,158,11,0.4); }
+
+.emcq-wrap .result-btns { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.75rem; }
+.emcq-wrap .btn-back {
+  background: linear-gradient(135deg, #f1f5ff, #e0e7ff); color: #4f46e5;
+  box-shadow: 0 5px 0 #c7d2fe, 0 8px 20px rgba(99,102,241,0.12);
+}
+.emcq-wrap .btn-back:hover { box-shadow: 0 8px 0 #a5b4fc, 0 14px 28px rgba(99,102,241,0.2); }
+.emcq-wrap .btn-retry {
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  box-shadow: 0 5px 0 #5b21b6, 0 10px 24px rgba(124,58,237,0.35);
+}
+.emcq-wrap .btn-retry:hover { box-shadow: 0 9px 0 #5b21b6, 0 16px 32px rgba(124,58,237,0.45); }
+
+.emcq-wrap .hidden { display: none !important; }
+</style>
+
+
+<!-- Back to Home TOP -->
+    <a href="#" onclick="showHome()" class="emcq-back-home" style="margin-bottom:1.2rem;">
+      🏠 ← Back to Home
+    </a>
+<div class="emcq-wrap">
+  <div class="emcq-header-bar">
+    <h1>📚 MCQ Challenge</h1>
+    <p>Select your unit · Answer fast · Beat the clock!</p>
+  </div>
+  <div class="emcq-wave"></div>
+
+  <div class="container">
+
+    
+
+    <!-- HOME: unit picker -->
+    <div id="emcq-home" class="card">
+      <div class="home-title">Pick Your Unit 📚</div>
+      <div class="home-sub">Choose a unit below, then hit Start Assessment</div>
+      <div class="unit-grid" id="emcq-unit-list">
+        <div class="unit-btn" id="emcq-exam-btn" onclick="emcqSelectFinalExam()">
+          <div class="ucard-inner">
+            <div class="ucard-icon">🏆</div>
+            <strong>Final Mock Exam</strong>
+            <span class="ucard-pill">15 Random Questions (All Units)</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn-main" style="margin-top:2rem;" onclick="emcqStartQuiz()">
+        🚀 Start Assessment
+      </button>
+    </div>
+
+    <!-- QUIZ screen -->
+    <div id="emcq-quiz" class="card hidden">
+      <div class="quiz-topbar">
+        <button class="back-units-btn" onclick="emcqReset()">← Units</button>
+        <span id="emcq-q-count" class="q-counter">Question 1/0</span>
+        <div class="timer-wrap">
+          <svg viewBox="0 0 44 44">
+            <defs>
+              <linearGradient id="eTimerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ef4444"/>
+                <stop offset="100%" stop-color="#f97316"/>
+              </linearGradient>
+            </defs>
+            <circle class="timer-track" cx="22" cy="22" r="22"/>
+            <circle class="timer-ring" cx="22" cy="22" r="22" id="emcq-timer-ring"/>
+          </svg>
+          <div class="timer-num" id="emcq-timer">20</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="emcq-progress" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="q-text" id="emcq-q-text">Loading...</div>
+      <div id="emcq-options"></div>
+      <button id="emcq-next-btn" class="btn-main hidden" onclick="emcqHandleNext()">
+        Next Question ➡️
+      </button>
+    </div>
+
+    <!-- RESULTS screen -->
+    <div id="emcq-results" class="card hidden">
+      <div class="results-title">Assessment Complete! 🏁</div>
+
+      <div class="score-ring">
+        <svg viewBox="0 0 160 160">
+          <defs>
+            <linearGradient id="eScoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#2563eb"/>
+              <stop offset="50%"  stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#ec4899"/>
+            </linearGradient>
+          </defs>
+          <circle class="score-track" cx="80" cy="80" r="70"/>
+          <circle class="score-fill"  cx="80" cy="80" r="70" id="emcq-score-ring"/>
+        </svg>
+        <div class="score-text">
+          <div class="score-num" id="emcq-score">0/0</div>
+          <div class="score-label">YOUR SCORE</div>
+        </div>
+      </div>
+
+      <div class="skill-breakdown">
+        <div id="emcq-unit-stats"></div>
+      </div>
+
+      <div class="result-btns">
+        <button class="btn-main btn-back"  onclick="emcqReset()">← Back to MCQ Units</button>
+        <button class="btn-main btn-retry" onclick="emcqTryAgain()">Try Again? 🔄</button>
+      </div>
+    </div>
+
+    <!-- Back to Home BOTTOM -->
+    <a href="#" onclick="showHome()" class="emcq-back-home" style="margin-top:1.2rem;">
+      🏠 ← Back to Home
+    </a>
+
+  </div>
+</div>
+
+<script id="emcq-script-block">
+(function() {
+
+  const quizData = {
+    "unit1": { title: "Unit 1: ICT Fundamentals", icon: "🌐", questions: [
+      { q: "The connection of computers in a small geographical area is called:", o: ["LAN", "MAN", "WAN", "PAN"], a: 0 },
+      { q: "In a high rate of distortion environment, which media is most appropriate?", o: ["Coaxial cable", "Twisted pair", "Fiber optic", "TV cable"], a: 2 },
+      { q: "Which network device transmits message intelligently to the destination?", o: ["Router", "Switch", "NIC", "Access Point"], a: 0 },
+      { q: "Which technology creates computer-generated simulation?", o: ["CAT", "Distributed App", "Virtual Reality", "Machine Learning"], a: 2 },
+      { q: "Which technology uses laser beams to create images?", o: ["AI", "3D Holographic", "Robotics", "Distributed App"], a: 1 },
+      { q: "Which technology provides telecommunication at high speed?", o: ["VR", "Distributed App", "Robotics", "5G"], a: 3 }
+    ]},
+    "unit2": { title: "Unit 2: Digital Skills", icon: "📊", questions: [
+      { q: "The basic unit of a worksheet to enter data in Excel is called a:", o: ["Cell", "Table", "Box", "Column"], a: 0 },
+      { q: "Which function is used to find the highest value in a range?", o: ["SUM( )", "AVERAGE( )", "MAX( )", "MIN( )"], a: 2 },
+      { q: "A formula in Microsoft Excel must start with:", o: ["-", "=", "+", "*"], a: 1 },
+      { q: "Which function checks whether a condition is true or false?", o: ["SUM( )", "MIN( )", "IF( )", "AVERAGE( )"], a: 2 },
+      { q: "Excel is used to prepare a:", o: ["Presentation", "Email", "Spreadsheet", "Webpage"], a: 2 },
+      { q: "To calculate the number of numeric entries, use the function:", o: ["Sum", "Average", "Count", "Value"], a: 2 }
+    ]},
+    "unit3": { title: "Unit 3: Algorithmic Thinking", icon: "📝", questions: [
+      { q: "Computers solve problems by performing operations in:", o: ["Nanoseconds", "Minutes", "Hours", "Days"], a: 0 },
+      { q: "The method of representing an algorithm using symbols is:", o: ["Code", "Logic", "Flowchart", "Pseudo-code"], a: 2 },
+      { q: "The step-by-step procedure to solve a problem is called:", o: ["Analysis", "Loop", "Algorithm", "Sorting"], a: 2 },
+      { q: "A parallelogram in a flowchart represents:", o: ["Process", "Input/Output", "Decision", "Start"], a: 1 },
+      { q: "A diamond shape in a flowchart represents:", o: ["Process", "Input/Output", "Decision", "Terminal"], a: 2 }
+    ]},
+    "unit4": { title: "Unit 4: Programming", icon: "💻", questions: [
+      { q: "The floor() function always ________ a number.", o: ["rounds down", "rounds up", "cycles down", "cycles up"], a: 0 },
+      { q: "Sprite location if 'var' = 10 (If var < 10 go to 100,-100, else 0,0):", o: ["0,0", "0,100", "100,0", "100,-100"], a: 0 }
+    ]},
+    "unit5": { title: "Unit 5: Digital Citizenship", icon: "🛡️", questions: [
+      { q: "Rules to be followed while using digital technology is known as:", o: ["Application", "Interaction", "Computer ethics", "Computer safety"], a: 2 },
+      { q: "The law that protects creative work is:", o: ["Internet privacy", "Copyright", "Plagiarism", "Online safety"], a: 1 },
+      { q: "Malware that transmits itself automatically over a network is a:", o: ["Virus", "Worm", "Adware", "Spyware"], a: 1 },
+      { q: "Malware that pops up advertisements is:", o: ["Virus", "Worm", "Spyware", "Adware"], a: 3 },
+      { q: "To report a cybercrime, you can contact:", o: ["ndma.gov.pk", "nr3c.gov.pk", "fbise.edu.pk", "nadra.gov.pk"], a: 1 },
+      { q: "Volunteers who help in prevention of cybercrime are called:", o: ["Cyber friend", "Eagle Scout", "Cyber Scout", "Cyber bully"], a: 2 }
+    ]},
+    "unit6": { title: "Unit 6: Entrepreneurship", icon: "🚀", questions: [
+      { q: "What is a component of a business plan?", o: ["Marketing Strategy", "Sales Strategy", "Operations", "All of these"], a: 3 },
+      { q: "Which of the following is an example of Quality Assurance?", o: ["Validation", "Verification", "Documentation", "Software testing"], a: 1 },
+      { q: "Digital marketing is often referred to as:", o: ["billboard", "online marketing", "TV", "radio"], a: 1 },
+      { q: "Social Media Marketing is a type of:", o: ["Digital Marketing", "Traditional", "Industrial", "Telemarketing"], a: 0 }
+    ]}
+  };
+
+  const LABELS = ['A','B','C','D'];
+  let activeQuestions = [], currentUnitMode = "", qIdx = 0, score = 0, unitStats = {};
+  window.emcqTimer = null;
+  const timerMax = 20;
+
+  // Build unit buttons
+  const list = document.getElementById('emcq-unit-list');
+  Object.keys(quizData).forEach(key => {
+    const d = document.createElement('div');
+    d.className = 'unit-btn';
+    d.dataset.unit = key;
+    d.innerHTML = `
+      <div class="ucard-inner">
+        <div class="ucard-icon">${quizData[key].icon}</div>
+        <strong>${quizData[key].title}</strong>
+        <span class="ucard-pill">${quizData[key].questions.length} MCQs</span>
+      </div>`;
+    d.onclick = () => {
+      document.querySelectorAll('#emcq-unit-list .unit-btn').forEach(b => b.classList.remove('active'));
+      d.classList.add('active');
+      currentUnitMode = key;
+    };
+    list.appendChild(d);
+  });
+
+  window.emcqSelectFinalExam = function() {
+    document.querySelectorAll('#emcq-unit-list .unit-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('emcq-exam-btn').classList.add('active');
+    currentUnitMode = "FINAL_EXAM";
+  };
+
+  window.emcqStartQuiz = function() {
+    if (!currentUnitMode) return alert("Please select a unit!");
+    unitStats = {};
+    Object.keys(quizData).forEach(k => unitStats[k] = { correct: 0, total: 0 });
+    if (currentUnitMode === "FINAL_EXAM") {
+      activeQuestions = Object.entries(quizData)
+        .flatMap(([uk, u]) => u.questions.map(q => ({ ...q, unitKey: uk })))
+        .sort(() => Math.random() - 0.5).slice(0, 15);
+    } else {
+      activeQuestions = quizData[currentUnitMode].questions.map(q => ({ ...q, unitKey: currentUnitMode }));
+    }
+    qIdx = 0; score = 0;
+    document.getElementById('emcq-home').classList.add('hidden');
+    document.getElementById('emcq-quiz').classList.remove('hidden');
+    emcqLoadQuestion();
+  };
+
+  function emcqLoadQuestion() {
+    const data = activeQuestions[qIdx];
+    const total = activeQuestions.length;
+    document.getElementById('emcq-q-count').innerText = `Question ${qIdx + 1} / ${total}`;
+    document.getElementById('emcq-q-text').innerText = data.q;
+    document.getElementById('emcq-next-btn').classList.add('hidden');
+    document.getElementById('emcq-progress').style.width = ((qIdx / total) * 100) + '%';
+    const opts = document.getElementById('emcq-options');
+    opts.innerHTML = '';
+    data.o.forEach((o, i) => {
+      const b = document.createElement('button');
+      b.className = 'option';
+      b.innerHTML = `<span class="opt-label">${LABELS[i]}</span><span>${o}</span>`;
+      b.onclick = () => emcqCheckAns(i, b);
+      opts.appendChild(b);
+    });
+    emcqStartTimer();
+  }
+
+  function emcqStartTimer() {
+    clearInterval(window.emcqTimer);
+    let tl = timerMax;
+    const ring = document.getElementById('emcq-timer-ring');
+    const circ = 2 * Math.PI * 22;
+    ring.style.strokeDasharray = circ;
+    function update() {
+      document.getElementById('emcq-timer').innerText = tl;
+      ring.style.strokeDashoffset = circ * (1 - tl / timerMax);
+      const hot = tl <= 8;
+      ring.style.stroke = hot ? '#f97316' : '#ef4444';
+      document.getElementById('emcq-timer').style.color = hot ? '#f97316' : '#ef4444';
+    }
+    update();
+    window.emcqTimer = setInterval(() => {
+      tl--; update();
+      if (tl <= 0) { clearInterval(window.emcqTimer); emcqCheckAns(-1, null); }
+    }, 1000);
+  }
+
+  function emcqCheckAns(idx, btn) {
+    clearInterval(window.emcqTimer);
+    const data = activeQuestions[qIdx];
+    unitStats[data.unitKey].total++;
+    document.querySelectorAll('#emcq-options .option').forEach(b => b.disabled = true);
+    if (idx === data.a) {
+      score++; unitStats[data.unitKey].correct++;
+      if (btn) btn.classList.add('correct');
+      setTimeout(emcqHandleNext, 900);
+    } else {
+      if (btn) btn.classList.add('wrong');
+      document.querySelectorAll('#emcq-options .option')[data.a].classList.add('correct');
+      document.getElementById('emcq-next-btn').classList.remove('hidden');
+    }
+  }
+
+  window.emcqHandleNext = function() {
+    qIdx++;
+    if (qIdx < activeQuestions.length) emcqLoadQuestion();
+    else emcqShowResults();
+  };
+
+  function emcqShowResults() {
+    document.getElementById('emcq-progress').style.width = '100%';
+    document.getElementById('emcq-quiz').classList.add('hidden');
+    document.getElementById('emcq-results').classList.remove('hidden');
+    const total = activeQuestions.length;
+    document.getElementById('emcq-score').innerText = `${score} / ${total}`;
+    const ring = document.getElementById('emcq-score-ring');
+    const circ = 2 * Math.PI * 70;
+    ring.style.strokeDasharray = circ;
+    setTimeout(() => { ring.style.strokeDashoffset = circ * (1 - score / total); }, 150);
+    const statsDiv = document.getElementById('emcq-unit-stats');
+    statsDiv.innerHTML = '<h3>Skill Breakdown</h3>';
+    Object.entries(unitStats).forEach(([key, stat]) => {
+      if (stat.total > 0) {
+        const pct = ((stat.correct / stat.total) * 100).toFixed(0);
+        statsDiv.innerHTML += `
+          <div class="stat-row">
+            <div class="stat-labels">
+              <strong>${quizData[key].title}</strong>
+              <span>${stat.correct}/${stat.total} (${pct}%)</span>
+            </div>
+            <div class="stat-track">
+              <div class="stat-fill ${pct >= 80 ? 'gold' : ''}" style="width:0%" data-pct="${pct}"></div>
+            </div>
+          </div>`;
+      }
+    });
+    setTimeout(() => {
+      statsDiv.querySelectorAll('.stat-fill').forEach(el => { el.style.width = el.dataset.pct + '%'; });
+    }, 300);
+  }
+
+  window.emcqReset = function() {
+    clearInterval(window.emcqTimer);
+    currentUnitMode = ""; activeQuestions = []; qIdx = 0; score = 0;
+    document.querySelectorAll('#emcq-unit-list .unit-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('emcq-results').classList.add('hidden');
+    document.getElementById('emcq-quiz').classList.add('hidden');
+    document.getElementById('emcq-home').classList.remove('hidden');
+  };
+
+  window.emcqTryAgain = function() {
+    clearInterval(window.emcqTimer);
+    const lastMode = currentUnitMode;
+    emcqReset();
+    if (lastMode) {
+      currentUnitMode = lastMode;
+      document.querySelectorAll('#emcq-unit-list .unit-btn').forEach(b => {
+        if (b.dataset.unit === lastMode) b.classList.add('active');
+      });
+      if (lastMode === 'FINAL_EXAM') document.getElementById('emcq-exam-btn').classList.add('active');
+    }
+  };
+
+})();
+</script>
