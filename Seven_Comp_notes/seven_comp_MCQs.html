@@ -1,0 +1,918 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════════ */
+:root {
+  --blue:    #2563eb;
+  --violet:  #7c3aed;
+  --pink:    #ec4899;
+  --orange:  #f97316;
+  --green:   #10b981;
+  --red:     #ef4444;
+  --gold:    #f59e0b;
+  --r: 1.25rem;
+}
+
+.mcq-wrap *, .mcq-wrap *::before, .mcq-wrap *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+}
+
+/* ═══════════════════════════════════════════
+   WRAPPER — white bg, colorful top strip
+═══════════════════════════════════════════ */
+.mcq-wrap {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: #f1f5ff;
+  min-height: 100vh;
+  padding: 0 0 4rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Big rainbow header bar */
+.mcq-wrap .mcq-header-bar {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 40%, #ec4899 70%, #f97316 100%);
+  padding: 2.8rem 1.5rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px;
+}
+.mcq-wrap .mcq-header-bar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.mcq-wrap .mcq-header-bar h1 {
+  color: #fff;
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  font-weight: 900;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  position: relative;
+  letter-spacing: -0.5px;
+}
+.mcq-wrap .mcq-header-bar p {
+  color: rgba(255,255,255,0.82);
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  position: relative;
+}
+
+/* Wavy bottom edge */
+.mcq-wrap .mcq-wave {
+  display: block;
+  width: 100%;
+  height: 60px;
+  background: #f1f5ff;
+  clip-path: ellipse(55% 100% at 50% 100%);
+  margin-top: -1px;
+}
+
+/* ═══════════════════════════════════════════
+   CONTAINER
+═══════════════════════════════════════════ */
+.mcq-wrap .container {
+  width: 94%;
+  max-width: 860px;
+  margin: -3.5rem auto 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════════
+   3-D CARD — the main effect
+═══════════════════════════════════════════ */
+.mcq-wrap .card {
+  background: #fff;
+  border-radius: 1.5rem;
+  padding: 2.4rem;
+  /* layered shadows for depth */
+  box-shadow:
+    0 1px  2px rgba(0,0,0,0.04),
+    0 4px  8px rgba(0,0,0,0.06),
+    0 12px 24px rgba(37,99,235,0.10),
+    0 32px 56px rgba(124,58,237,0.10),
+    0 0 0 1px rgba(37,99,235,0.07);
+  position: relative;
+  transform: perspective(1000px) rotateX(0deg);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+/* Colored left accent stripe */
+.mcq-wrap .card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 1.5rem; bottom: 1.5rem; width: 5px;
+  background: linear-gradient(180deg, var(--blue), var(--violet), var(--pink));
+  border-radius: 0 3px 3px 0;
+}
+
+/* ═══════════════════════════════════════════
+   UNIT GRID
+═══════════════════════════════════════════ */
+.mcq-wrap .home-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1e1b4b;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+.mcq-wrap .home-sub {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
+}
+
+.mcq-wrap .unit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* unit card — 3-D press effect */
+.mcq-wrap .unit-btn {
+  background: #fff;
+  border: 2px solid #e0e7ff;
+  border-radius: 1.1rem;
+  padding: 1.3rem 0.9rem;
+  text-align: center;
+  cursor: pointer;
+  color: #1e1b4b;
+  position: relative;
+  /* 3-D bottom shadow = fake floor */
+  box-shadow:
+    0 6px 0 #c7d2fe,
+    0 8px 16px rgba(99,102,241,0.15);
+  transition: all 0.18s cubic-bezier(0.34,1.56,0.64,1);
+  transform: translateY(0);
+}
+.mcq-wrap .unit-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(99,102,241,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.mcq-wrap .unit-btn:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 0 #a5b4fc,
+    0 14px 28px rgba(99,102,241,0.22);
+  border-color: #818cf8;
+}
+.mcq-wrap .unit-btn:hover::after { opacity: 1; }
+.mcq-wrap .unit-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #c7d2fe, 0 4px 8px rgba(99,102,241,0.1);
+}
+.mcq-wrap .unit-btn.active {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border-color: transparent;
+  color: #fff;
+  box-shadow:
+    0 6px 0 #1d4ed8,
+    0 10px 28px rgba(37,99,235,0.35);
+  transform: translateY(-2px);
+}
+.mcq-wrap .unit-btn.active::after { opacity: 0; }
+.mcq-wrap .unit-btn span {
+  font-size: 2.1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+  transition: transform 0.3s;
+}
+.mcq-wrap .unit-btn:hover span { transform: scale(1.2) rotate(-5deg); }
+.mcq-wrap .unit-btn strong {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.mcq-wrap .unit-btn small {
+  font-size: 0.7rem;
+  opacity: 0.65;
+  margin-top: 0.2rem;
+  display: block;
+}
+
+/* ── Final Exam (gold) ── */
+#mcq-exam-btn {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  border-color: #fcd34d !important;
+  color: #92400e !important;
+  box-shadow: 0 6px 0 #fbbf24, 0 10px 24px rgba(245,158,11,0.2) !important;
+}
+#mcq-exam-btn:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 0 #f59e0b, 0 16px 32px rgba(245,158,11,0.3) !important;
+  border-color: #f59e0b !important;
+}
+#mcq-exam-btn.active {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 6px 0 #b45309, 0 12px 28px rgba(245,158,11,0.4) !important;
+}
+
+/* ═══════════════════════════════════════════
+   START BUTTON
+═══════════════════════════════════════════ */
+.mcq-wrap .btn-main {
+  display: block; width: 100%;
+  padding: 1.05rem;
+  border: none;
+  border-radius: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  /* 3-D press button */
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #fff;
+  box-shadow:
+    0 6px 0 #1d4ed8,
+    0 10px 24px rgba(37,99,235,0.35);
+  transition: all 0.15s;
+  position: relative;
+  transform: translateY(0);
+}
+.mcq-wrap .btn-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0 #1d4ed8, 0 16px 32px rgba(37,99,235,0.4);
+}
+.mcq-wrap .btn-main:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #1d4ed8, 0 4px 10px rgba(37,99,235,0.2);
+}
+
+/* ═══════════════════════════════════════════
+   QUIZ TOPBAR
+═══════════════════════════════════════════ */
+.mcq-wrap .quiz-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+  gap: 0.75rem;
+}
+.mcq-wrap .back-units-btn {
+  background: #f1f5ff;
+  border: 2px solid #c7d2fe;
+  border-radius: 2rem;
+  color: var(--blue);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem; font-weight: 700;
+  padding: 0.45rem 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #c7d2fe;
+  transition: all 0.15s;
+}
+.mcq-wrap .back-units-btn:hover {
+  background: #e0e7ff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #a5b4fc;
+}
+.mcq-wrap .back-units-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #c7d2fe;
+}
+.mcq-wrap .q-counter {
+  font-size: 0.82rem; font-weight: 700;
+  color: #4f46e5;
+  background: #e0e7ff;
+  border-radius: 2rem;
+  padding: 0.4rem 1rem;
+}
+
+/* ── Circular timer ── */
+.mcq-wrap .timer-wrap {
+  position: relative; width: 54px; height: 54px; flex-shrink: 0;
+  filter: drop-shadow(0 4px 8px rgba(239,68,68,0.25));
+}
+.mcq-wrap .timer-wrap svg {
+  position: absolute; inset: 0;
+  transform: rotate(-90deg);
+}
+.mcq-wrap .timer-track { fill: none; stroke: #fee2e2; stroke-width: 4; }
+.mcq-wrap .timer-ring  {
+  fill: none; stroke: var(--red); stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 138; stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke 0.5s;
+}
+.mcq-wrap .timer-num {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; font-weight: 800; color: var(--red);
+}
+
+/* ── Progress bar ── */
+.mcq-wrap .progress-wrap { margin-bottom: 1.4rem; }
+.mcq-wrap .progress-track {
+  height: 8px;
+  background: #e0e7ff;
+  border-radius: 99px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(99,102,241,0.1);
+}
+.mcq-wrap .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #7c3aed, #ec4899);
+  border-radius: 99px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(99,102,241,0.4);
+}
+
+/* ── Question text ── */
+.mcq-wrap .q-text {
+  font-size: clamp(0.95rem, 2.5vw, 1.13rem);
+  font-weight: 600;
+  line-height: 1.65;
+  color: #1e1b4b;
+  background: linear-gradient(135deg, #f1f5ff, #e0e7ff);
+  border-left: 5px solid #2563eb;
+  border-radius: 0 0.9rem 0.9rem 0;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.08);
+}
+
+/* ═══════════════════════════════════════════
+   OPTIONS — big 3-D press buttons
+═══════════════════════════════════════════ */
+.mcq-wrap .option {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 0.95rem 1.2rem;
+  margin: 0.55rem 0;
+  border: 2.5px solid #e0e7ff;
+  border-radius: 1rem;
+  background: #fff;
+  color: #1e1b4b;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem; font-weight: 500;
+  /* 3-D effect */
+  box-shadow: 0 4px 0 #c7d2fe, 0 6px 14px rgba(99,102,241,0.08);
+  transform: translateY(0);
+  transition: all 0.15s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  overflow: hidden;
+}
+.mcq-wrap .option::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.06));
+  transition: width 0.25s;
+}
+.mcq-wrap .option:hover:not(:disabled) {
+  border-color: #818cf8;
+  transform: translateY(-3px);
+  box-shadow: 0 7px 0 #a5b4fc, 0 12px 24px rgba(99,102,241,0.18);
+  color: #2563eb;
+}
+.mcq-wrap .option:hover:not(:disabled)::before { width: 100%; }
+.mcq-wrap .option:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #c7d2fe, 0 2px 6px rgba(99,102,241,0.1);
+}
+
+/* option letter badge */
+.mcq-wrap .opt-label {
+  min-width: 32px; height: 32px;
+  border-radius: 50%;
+  background: #e0e7ff;
+  color: #4f46e5;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 800;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(99,102,241,0.15);
+}
+.mcq-wrap .option:hover:not(:disabled) .opt-label {
+  background: #2563eb;
+  color: #fff;
+  transform: scale(1.1) rotate(-8deg);
+}
+
+/* Correct */
+.mcq-wrap .option.correct {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important;
+  border-color: #10b981 !important;
+  color: #064e3b !important;
+  box-shadow: 0 6px 0 #6ee7b7, 0 10px 24px rgba(16,185,129,0.25) !important;
+  animation: popCorrect 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.mcq-wrap .option.correct .opt-label {
+  background: #10b981; color: #fff;
+  transform: scale(1.2);
+}
+/* Wrong */
+.mcq-wrap .option.wrong {
+  background: linear-gradient(135deg, #fee2e2, #fecaca) !important;
+  border-color: #ef4444 !important;
+  color: #7f1d1d !important;
+  box-shadow: 0 6px 0 #fca5a5, 0 10px 24px rgba(239,68,68,0.2) !important;
+  animation: shakeWrong 0.4s ease;
+}
+.mcq-wrap .option.wrong .opt-label {
+  background: #ef4444; color: #fff;
+}
+.mcq-wrap .option:disabled { cursor: not-allowed; }
+
+@keyframes popCorrect {
+  0%   { transform: scale(0.95) translateY(0); }
+  50%  { transform: scale(1.04) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
+}
+@keyframes shakeWrong {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-5px); }
+  80%     { transform: translateX(5px); }
+}
+
+/* ── Next button ── */
+#mcq-next-btn {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  box-shadow: 0 6px 0 #ea580c, 0 10px 24px rgba(249,115,22,0.35);
+  margin-top: 1rem;
+}
+#mcq-next-btn:hover {
+  box-shadow: 0 9px 0 #ea580c, 0 16px 32px rgba(249,115,22,0.4);
+}
+
+/* ═══════════════════════════════════════════
+   RESULTS
+═══════════════════════════════════════════ */
+.mcq-wrap .results-header { text-align: center; margin-bottom: 0.5rem; }
+.mcq-wrap .results-title {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #2563eb, #7c3aed, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Score ring — big 3-D circle */
+.mcq-wrap .score-ring {
+  width: 170px; height: 170px;
+  margin: 1.5rem auto;
+  position: relative;
+  filter: drop-shadow(0 12px 24px rgba(37,99,235,0.25));
+}
+.mcq-wrap .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.mcq-wrap .score-track { fill: none; stroke: #e0e7ff; stroke-width: 12; }
+.mcq-wrap .score-fill  {
+  fill: none; stroke-width: 12; stroke-linecap: round;
+  stroke-dasharray: 440; stroke-dashoffset: 440;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.4,0,0.2,1);
+  stroke: url(#scoreGrad);
+}
+.mcq-wrap .score-text {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.mcq-wrap .score-num {
+  font-size: 2.6rem; font-weight: 900; line-height: 1;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.mcq-wrap .score-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+  color: #94a3b8; margin-top: 4px;
+}
+
+/* ── Skill bars ── */
+.mcq-wrap .skill-breakdown { margin-top: 1.5rem; }
+.mcq-wrap .skill-breakdown h3 {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: #94a3b8; margin-bottom: 1rem;
+}
+.mcq-wrap .stat-row {
+  margin-bottom: 1rem;
+  background: #f8faff;
+  border: 1.5px solid #e0e7ff;
+  border-radius: 0.9rem;
+  padding: 0.9rem 1.1rem;
+  box-shadow: 0 3px 0 #c7d2fe;
+  transition: transform 0.2s;
+}
+.mcq-wrap .stat-row:hover { transform: translateY(-2px); }
+.mcq-wrap .stat-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.82rem; margin-bottom: 0.6rem;
+}
+.mcq-wrap .stat-labels strong { color: #1e1b4b; font-weight: 700; }
+.mcq-wrap .stat-labels span   {
+  font-weight: 700;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.mcq-wrap .stat-track {
+  height: 10px;
+  background: #e0e7ff;
+  border-radius: 99px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(99,102,241,0.12);
+}
+.mcq-wrap .stat-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  border-radius: 99px;
+  width: 0%;
+  transition: width 1.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 0 10px rgba(99,102,241,0.4);
+}
+.mcq-wrap .stat-fill.gold {
+  background: linear-gradient(90deg, #f59e0b, #ec4899);
+  box-shadow: 0 0 10px rgba(245,158,11,0.4);
+}
+
+/* ── Result action buttons ── */
+.mcq-wrap .result-btns { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.75rem; }
+.mcq-wrap .btn-back {
+  background: linear-gradient(135deg, #f1f5ff, #e0e7ff);
+  color: #4f46e5;
+  box-shadow: 0 5px 0 #c7d2fe, 0 8px 20px rgba(99,102,241,0.12);
+}
+.mcq-wrap .btn-back:hover {
+  box-shadow: 0 8px 0 #a5b4fc, 0 14px 28px rgba(99,102,241,0.2);
+}
+.mcq-wrap .btn-retry {
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  box-shadow: 0 5px 0 #5b21b6, 0 10px 24px rgba(124,58,237,0.35);
+}
+.mcq-wrap .btn-retry:hover {
+  box-shadow: 0 9px 0 #5b21b6, 0 16px 32px rgba(124,58,237,0.45);
+}
+
+/* card entrance */
+@keyframes slideUp {
+  from { opacity:0; transform: translateY(30px) perspective(600px) rotateX(4deg); }
+  to   { opacity:1; transform: translateY(0)   perspective(600px) rotateX(0deg); }
+}
+.mcq-wrap .card { animation: slideUp 0.5s cubic-bezier(0.34,1.2,0.64,1) both; }
+
+.mcq-wrap .hidden { display: none !important; }
+</style>
+
+<!-- ── Header bar ── -->
+<div class="mcq-wrap">
+  <div class="mcq-header-bar">
+    <h1>📚 MCQ Challenge</h1>
+    <p>Select your unit · Answer fast · Beat the clock!</p>
+  </div>
+  <div class="mcq-wave"></div>
+
+  <div class="container">
+
+    <!-- HOME: unit picker -->
+    <div id="mcq-home" class="card">
+      <div class="home-title">Pick Your Unit 📚</div>
+      <div class="home-sub">Choose a unit below, then hit Start Assessment</div>
+      <div class="unit-grid" id="mcq-unit-list">
+        <div class="unit-btn" id="mcq-exam-btn" onclick="mcqSelectFinalExam()">
+          <span style="font-size:2.2rem;">🏆</span>
+          <strong>Final Mock Exam</strong>
+          <small>15 Random Questions (All Units)</small>
+        </div>
+      </div>
+      <button class="btn-main" style="margin-top:2rem;" onclick="mcqStartQuiz()">
+        🚀 Start Assessment
+      </button>
+    </div>
+
+    <!-- QUIZ screen -->
+    <div id="mcq-quiz" class="card hidden">
+      <div class="quiz-topbar">
+        <button class="back-units-btn" onclick="mcqReset()">← Units</button>
+        <span id="mcq-q-count" class="q-counter">Question 1/0</span>
+        <div class="timer-wrap">
+          <svg viewBox="0 0 44 44">
+            <defs>
+              <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#ef4444"/>
+                <stop offset="100%" stop-color="#f97316"/>
+              </linearGradient>
+            </defs>
+            <circle class="timer-track" cx="22" cy="22" r="22"/>
+            <circle class="timer-ring"  cx="22" cy="22" r="22" id="mcq-timer-ring"/>
+          </svg>
+          <div class="timer-num" id="mcq-timer">20</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="mcq-progress" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="q-text" id="mcq-q-text">Loading...</div>
+      <div id="mcq-options"></div>
+      <button id="mcq-next-btn" class="btn-main hidden" onclick="mcqHandleNext()">
+        Next Question ➡️
+      </button>
+    </div>
+
+    <!-- RESULTS screen -->
+    <div id="mcq-results" class="card hidden">
+      <div class="results-header">
+        <div class="results-title">Assessment Complete! 🏁</div>
+      </div>
+
+      <div class="score-ring">
+        <svg viewBox="0 0 160 160">
+          <defs>
+            <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#2563eb"/>
+              <stop offset="50%"  stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#ec4899"/>
+            </linearGradient>
+          </defs>
+          <circle class="score-track" cx="80" cy="80" r="70"/>
+          <circle class="score-fill"  cx="80" cy="80" r="70" id="mcq-score-ring"/>
+        </svg>
+        <div class="score-text">
+          <div class="score-num" id="mcq-score">0/0</div>
+          <div class="score-label">YOUR SCORE</div>
+        </div>
+      </div>
+
+      <div class="skill-breakdown">
+        <div id="mcq-unit-stats"></div>
+      </div>
+
+      <div class="result-btns">
+        <button class="btn-main btn-back"  onclick="mcqReset()">← Back to MCQ Units</button>
+        <button class="btn-main btn-retry" onclick="mcqTryAgain()">Try Again? 🔄</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script id="mcq-script-block">
+(function() {
+
+  const quizData = {
+    "unit1": {
+      title: "Unit 1: ICT Fundamentals", icon: "🌐",
+      questions: [
+        { q: "System unit is the casing that contains following electronic components:", o: ["Motherboard, power supply, RAM, CPU","Keyboard, Monitor, Touchpad, CD","Printer, Scanner, Joystick, HDD","Motherboard, Display Screen, Speaker, Projector"], a: 0 },
+        { q: "Which of the following is volatile memory?", o: ["Optical Memory","Read Only Memory","Random Access Memory","Flash Memory"], a: 2 },
+        { q: "Which of the following is permanent memory?", o: ["Read Only Memory","Registers","Random Access Memory","Cache Memory"], a: 0 },
+        { q: "Identify the correct order of memory units:", o: ["TB > MB > GB > KB","MB > GB > TB > KB","TB > GB > MB > KB","GB > MB > KB > TB"], a: 2 },
+        { q: "Which device is used to input audio into the computer?", o: ["Mouse","Webcam","Microphone","Scanner"], a: 2 },
+        { q: "The device used to obtain text, images and graphics on paper is:", o: ["Monitor","Printer","Scanner","Keyboard"], a: 1 },
+        { q: "The device used to stream live video in real time is:", o: ["Printer","Microphone","Scanner","Webcam"], a: 3 },
+        { q: "Which technology uses fingerprint for identification purpose?", o: ["Robotics","Vision enhancement","Biometrics","Virtual reality"], a: 2 },
+        { q: "Which technology is related with creation of computer systems that behave like humans?", o: ["Virtual reality","Artificial intelligence","Biometrics","Augmented reality"], a: 1 },
+        { q: "A computer that accesses the shared resources of a server is called:", o: ["Personal Computer","Server","Client","Remote Computer"], a: 2 }
+      ]
+    },
+    "unit2": {
+      title: "Unit 2: Digital Skills", icon: "📊",
+      questions: [
+        { q: "Which application program is used for composing, editing and formatting documents?", o: ["Microsoft Outlook","Microsoft Excel","Microsoft Word","Microsoft PowerPoint"], a: 2 },
+        { q: "The Ribbon is the work bar located at:", o: ["right of document","left of document","bottom of document","top of document"], a: 3 },
+        { q: "Status bar displays information like:", o: ["size in MB, GB","file location","name of file","word count, pages, current page"], a: 3 },
+        { q: "Home tab contains the following features:", o: ["Header/Footer, Page Layout","Insert picture, Mail merge","Table inserting/formatting","Clipboard, Font, Paragraph Menus"], a: 3 },
+        { q: "The Apply Design Template command is used to:", o: ["change slide order","change slide shape","change background and fonts","create a new presentation"], a: 2 },
+        { q: "The process of removing unwanted parts of an image is:", o: ["hiding","bordering","cropping","cutting"], a: 2 },
+        { q: "During a slide show, pressing the Esc key:", o: ["displays last slide","displays first slide","ends the slide show","displays previous slide"], a: 2 },
+        { q: "Microsoft PowerPoint is best described as:", o: ["presentation software","database software","drawing software","desktop publishing"], a: 0 },
+        { q: "On a single slide, you can have:", o: ["single video file","two video files","three video files","many video files"], a: 3 },
+        { q: "You can re-arrange slides in:", o: ["slide view","sorter view","notes page view","slide show view"], a: 1 },
+        { q: "Email is a method of exchanging messages using:", o: ["post office service","electronic devices","a postman","telegraph"], a: 1 },
+        { q: "The correct format of an email address is:", o: ["www.Pakistan.com.pk","Pakistan#$@gmail.com","Pakistan786@gmail.com","Gmail.com@pakistan"], a: 2 },
+        { q: "The username of electronic mail accounts are:", o: ["not case sensitive","always unique for each user","spaces not allowed","only numeric"], a: 2 },
+        { q: "Examples of Email Service Providers are:", o: ["gmail.com & outlook.com","Chrome","Internet explorer","Mozilla Firefox"], a: 0 },
+        { q: "While composing email option 'BCC' stands for:", o: ["Blind carbon copy","Blank carbon copy","Black carbon copy","Bank carbon copy"], a: 0 }
+      ]
+    },
+    "unit3": {
+      title: "Unit 3: Algorithmic Thinking", icon: "📝",
+      questions: [
+        { q: "When a problem is poorly defined, it means:", o: ["It is not properly understood and identified","An acceptable solution could not be designed","An acceptable solution could not be developed","All of above"], a: 3 },
+        { q: "What should be written in the problem definition?", o: ["Solution","Situation","Need","Behavior"], a: 2 },
+        { q: "Once a solution is implemented, how do you ensure it is correct?", o: ["Programming language","Feedback","Problem decomposition","Input"], a: 1 },
+        { q: "A key to a good implementation is:", o: ["Good problem analysis","Good design","Feedback","All of the above"], a: 3 },
+        { q: "Flowchart is the best way to depict:", o: ["Problem background","Proposed solution","Evaluation","All of the above"], a: 1 },
+        { q: "An algorithm takes __________ and returns __________.", o: ["Input, Output","Problem, Solution","Solution, Problem","Parameters, sequence of action"], a: 0 },
+        { q: "The first step of problem analysis is:", o: ["Problem decomposition","Problem identification","Problem solution","Problem design"], a: 1 },
+        { q: "Breaking a complex problem into smaller problems to solve individually is:", o: ["Decomposition","Abstraction","Programming","Algorithmic thinking"], a: 0 }
+      ]
+    },
+    "unit4": {
+      title: "Unit 4: Programming Fundamentals", icon: "💻",
+      questions: [
+        { q: "Convert decimal 13 to binary:", o: ["1101","1111","1001","1011"], a: 0 },
+        { q: "Convert decimal 17 to binary:", o: ["10001","10011","10101","11001"], a: 0 },
+        { q: "Convert decimal 21 to binary:", o: ["10101","10111","11001","11101"], a: 0 },
+        { q: "Convert decimal 31 to binary:", o: ["11111","11101","11011","10111"], a: 0 },
+        { q: "Convert binary 1001 to decimal:", o: ["9","10","11","8"], a: 0 },
+        { q: "Convert binary 1100 to decimal:", o: ["12","13","14","11"], a: 0 },
+        { q: "Convert binary 1000 to decimal:", o: ["8","9","7","10"], a: 0 },
+        { q: "Convert binary 1010 to decimal:", o: ["10","9","11","12"], a: 0 }
+      ]
+    },
+    "unit5": {
+      title: "Unit 5: Cybersecurity", icon: "🛡️",
+      questions: [
+        { q: "The set of moral principles for responsible use of Internet, computer and ICT devices is known as:", o: ["Computer Education","Computer Ethics","Online Safety","Internet Surfing"], a: 1 },
+        { q: "If you regularly back up your data, this is a ______ against the threat of data loss.", o: ["firewall","class","security","countermeasure"], a: 3 },
+        { q: "A ______ is someone who uses a computer and a network or Internet connection to intrude into another computer system to perform an illegal act.", o: ["hacker","programmer","terrorist","spammer"], a: 0 },
+        { q: "______ is a form of warfare which is used by the cyber terrorists to harm or gain control of important computer systems.", o: ["Cyberhacking","Cybertapping","Cybercrime","Cyberterrorism"], a: 3 },
+        { q: "Which of the following crime is related to stealing personal information?", o: ["Cyberbullying","Digital Piracy","Identity Theft","Plagiarism"], a: 2 }
+      ]
+    },
+    "unit6": {
+      title: "Unit 6: Entrepreneurship", icon: "🚀",
+      questions: [
+        { q: "Design Thinking is a:", o: ["way of thinking about design","method and mindset to define, frame and solve problems","way to separate 'thinking' from 'making'","curriculum for teaching non-designers"], a: 1 },
+        { q: "Design Thinking starts with:", o: ["sketching or prototyping with craft materials","sticky notes or note cards","empathy and an understanding of human needs","identifying solutions for your problem"], a: 2 },
+        { q: "Where does the information for the Define phase come from?", o: ["The Testing Stage","The Prototype Stage","The Ideate Stage","The Empathize Stage"], a: 3 },
+        { q: "What is the role of the Define stage of design thinking?", o: ["To define parameters for a prototype","To define the audience you're trying to reach","To define the problem that needs to be solved","To define all ideas for solving a problem"], a: 2 },
+        { q: "Design Thinking typically helps in:", o: ["innovation","data analytics","financial planning","operational efficiency"], a: 0 }
+      ]
+    }
+  };
+
+  const LABELS = ['A','B','C','D'];
+  let activeQuestions = [], currentUnitMode = "", qIdx = 0, score = 0, unitStats = {};
+  window.mcqTimer = null;
+  const timerMax = 20;
+
+  // Build unit buttons
+  const list = document.getElementById('mcq-unit-list');
+  Object.keys(quizData).forEach(key => {
+    const d = document.createElement('div');
+    d.className = 'unit-btn';
+    d.dataset.unit = key;
+    d.innerHTML = `<span>${quizData[key].icon}</span><strong>${quizData[key].title}</strong><small>${quizData[key].questions.length} MCQs</small>`;
+    d.onclick = () => {
+      document.querySelectorAll('#mcq-unit-list .unit-btn').forEach(b => b.classList.remove('active'));
+      d.classList.add('active');
+      currentUnitMode = key;
+    };
+    list.appendChild(d);
+  });
+
+  window.mcqSelectFinalExam = function() {
+    document.querySelectorAll('#mcq-unit-list .unit-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('mcq-exam-btn').classList.add('active');
+    currentUnitMode = "FINAL_EXAM";
+  };
+
+  window.mcqStartQuiz = function() {
+    if (!currentUnitMode) return alert("Please select a unit!");
+    unitStats = {};
+    Object.keys(quizData).forEach(k => unitStats[k] = { correct: 0, total: 0 });
+    if (currentUnitMode === "FINAL_EXAM") {
+      activeQuestions = Object.entries(quizData)
+        .flatMap(([uk, u]) => u.questions.map(q => ({ ...q, unitKey: uk })))
+        .sort(() => Math.random() - 0.5).slice(0, 15);
+    } else {
+      activeQuestions = quizData[currentUnitMode].questions.map(q => ({ ...q, unitKey: currentUnitMode }));
+    }
+    qIdx = 0; score = 0;
+    document.getElementById('mcq-home').classList.add('hidden');
+    document.getElementById('mcq-quiz').classList.remove('hidden');
+    mcqLoadQuestion();
+  };
+
+  function mcqLoadQuestion() {
+    const data = activeQuestions[qIdx];
+    const total = activeQuestions.length;
+    document.getElementById('mcq-q-count').innerText = `Question ${qIdx + 1} / ${total}`;
+    document.getElementById('mcq-q-text').innerText = data.q;
+    document.getElementById('mcq-next-btn').classList.add('hidden');
+    document.getElementById('mcq-progress').style.width = ((qIdx / total) * 100) + '%';
+    const opts = document.getElementById('mcq-options');
+    opts.innerHTML = '';
+    data.o.forEach((o, i) => {
+      const b = document.createElement('button');
+      b.className = 'option';
+      b.innerHTML = `<span class="opt-label">${LABELS[i]}</span><span>${o}</span>`;
+      b.onclick = () => mcqCheckAns(i, b);
+      opts.appendChild(b);
+    });
+    mcqStartTimer();
+  }
+
+  function mcqStartTimer() {
+    clearInterval(window.mcqTimer);
+    let tl = timerMax;
+    const ring = document.getElementById('mcq-timer-ring');
+    const circ = 2 * Math.PI * 22;
+    ring.style.strokeDasharray = circ;
+    function update() {
+      document.getElementById('mcq-timer').innerText = tl;
+      ring.style.strokeDashoffset = circ * (1 - tl / timerMax);
+      const hot = tl <= 8;
+      ring.style.stroke = hot ? '#f97316' : '#ef4444';
+      document.getElementById('mcq-timer').style.color = hot ? '#f97316' : '#ef4444';
+    }
+    update();
+    window.mcqTimer = setInterval(() => {
+      tl--;
+      update();
+      if (tl <= 0) { clearInterval(window.mcqTimer); mcqCheckAns(-1, null); }
+    }, 1000);
+  }
+
+  function mcqCheckAns(idx, btn) {
+    clearInterval(window.mcqTimer);
+    const data = activeQuestions[qIdx];
+    unitStats[data.unitKey].total++;
+    document.querySelectorAll('#mcq-options .option').forEach(b => b.disabled = true);
+    if (idx === data.a) {
+      score++; unitStats[data.unitKey].correct++;
+      if (btn) btn.classList.add('correct');
+      setTimeout(mcqHandleNext, 900);
+    } else {
+      if (btn) btn.classList.add('wrong');
+      document.querySelectorAll('#mcq-options .option')[data.a].classList.add('correct');
+      document.getElementById('mcq-next-btn').classList.remove('hidden');
+    }
+  }
+
+  window.mcqHandleNext = function() {
+    qIdx++;
+    if (qIdx < activeQuestions.length) mcqLoadQuestion();
+    else mcqShowResults();
+  };
+
+  function mcqShowResults() {
+    document.getElementById('mcq-progress').style.width = '100%';
+    document.getElementById('mcq-quiz').classList.add('hidden');
+    document.getElementById('mcq-results').classList.remove('hidden');
+    const total = activeQuestions.length;
+    document.getElementById('mcq-score').innerText = `${score} / ${total}`;
+    const ring = document.getElementById('mcq-score-ring');
+    const circ = 2 * Math.PI * 70;
+    ring.style.strokeDasharray = circ;
+    setTimeout(() => { ring.style.strokeDashoffset = circ * (1 - score / total); }, 150);
+    const statsDiv = document.getElementById('mcq-unit-stats');
+    statsDiv.innerHTML = '<h3>Skill Breakdown</h3>';
+    Object.entries(unitStats).forEach(([key, stat]) => {
+      if (stat.total > 0) {
+        const pct = ((stat.correct / stat.total) * 100).toFixed(0);
+        statsDiv.innerHTML += `
+          <div class="stat-row">
+            <div class="stat-labels">
+              <strong>${quizData[key].title}</strong>
+              <span>${stat.correct}/${stat.total} (${pct}%)</span>
+            </div>
+            <div class="stat-track">
+              <div class="stat-fill ${pct >= 80 ? 'gold' : ''}" style="width:0%" data-pct="${pct}"></div>
+            </div>
+          </div>`;
+      }
+    });
+    setTimeout(() => {
+      statsDiv.querySelectorAll('.stat-fill').forEach(el => { el.style.width = el.dataset.pct + '%'; });
+    }, 300);
+  }
+
+  window.mcqReset = function() {
+    clearInterval(window.mcqTimer);
+    currentUnitMode = ""; activeQuestions = []; qIdx = 0; score = 0;
+    document.querySelectorAll('#mcq-unit-list .unit-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('mcq-results').classList.add('hidden');
+    document.getElementById('mcq-quiz').classList.add('hidden');
+    document.getElementById('mcq-home').classList.remove('hidden');
+  };
+
+  window.mcqTryAgain = function() {
+    clearInterval(window.mcqTimer);
+    const lastMode = currentUnitMode;
+    mcqReset();
+    if (lastMode) {
+      currentUnitMode = lastMode;
+      document.querySelectorAll('#mcq-unit-list .unit-btn').forEach(b => {
+        if (b.dataset.unit === lastMode) b.classList.add('active');
+      });
+      if (lastMode === 'FINAL_EXAM') document.getElementById('mcq-exam-btn').classList.add('active');
+    }
+  };
+
+})();
+</script>
